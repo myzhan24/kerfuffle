@@ -1,6 +1,11 @@
 {
   "parser": "babel-eslint",
   "extends": "standard",
+  "rules": {
+    "indent": ["error", 4],
+    "object-curly-spacing": "off",
+    "space-before-function-paren": "off"
+  },
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
