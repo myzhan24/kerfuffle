@@ -4,7 +4,8 @@
   "rules": {
     "indent": ["error", 4],
     "object-curly-spacing": "off",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "semi": "off"
   },
   "parserOptions": {
     "ecmaVersion": 6,
