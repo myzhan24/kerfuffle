@@ -16,6 +16,7 @@ export default class extends Phaser.Scene {
     }
 
     create() {
+        this.universe = [];
         this.mushroom = new Mushroom({
             scene: this,
             x: 400,
@@ -30,6 +31,8 @@ export default class extends Phaser.Scene {
             asset: 'mushroom'
         });
 
+        this.universe.push(this.mushroom, this.player);
+
         this.add.existing(this.mushroom);
         this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
             font: '64px Bangers',
@@ -40,7 +43,8 @@ export default class extends Phaser.Scene {
     }
 
     update() {
-        this.mushroom.update();
-        this.player.update();
+        for (let obj of this.universe) {
+            obj.update();
+        }
     }
 }
