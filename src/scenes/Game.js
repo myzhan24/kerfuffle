@@ -4,7 +4,7 @@ import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
 import Platform from '../sprites/Platform';
-import { overlaps } from "../utils";
+import { overlaps } from '../utils';
 
 export default class extends Phaser.Scene {
     constructor() {
