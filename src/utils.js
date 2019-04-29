@@ -9,3 +9,7 @@ export const centerGameObjects = (objects) => {
 export function overlaps(spriteA, spriteB) {
     return Phaser.Geom.Intersects.RectangleToRectangle(spriteA.getBounds(), spriteB.getBounds());
 }
+
+export function isPresent(obj) {
+    return obj !== null && obj !== undefined;
+}
