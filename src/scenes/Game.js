@@ -72,14 +72,10 @@ export default class extends Phaser.Scene {
             fill: '#7744ff'
         });
 
-        this.boundaries.add(this.add.existing(this.topBoundary));
-        this.boundaries.add(this.add.existing(this.rightBoundary));
-        this.boundaries.add(this.add.existing(this.bottomBoundary));
-        this.boundaries.add(this.add.existing(this.leftBoundary));
+        this.boundaries.addMultiple([this.add.existing(this.topBoundary), this.add.existing(this.rightBoundary), this.add.existing(this.bottomBoundary), this.add.existing(this.leftBoundary)]);
     }
 
     update() {
-        // this.updateKeyBinds();
         // If a universe Object intersects with a platform, reset its y and vector y
         for (let child of this.universe.getChildren()) {
             child.grounded = false;
