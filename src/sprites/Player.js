@@ -24,7 +24,7 @@ export default class extends Phaser.GameObjects.Sprite {
     updateKeyBinds() {
         if (this.keyA.isDown && this.grounded) {
             // TODO is changing grounded here right?
-            this.grounded = false;
+            // this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
         }
 

@@ -66,6 +66,8 @@ export default class extends Phaser.Scene {
         // this.updateKeyBinds();
         // If a universe Object intersects with a platform, reset its y and vector y
         for (let uniObj of this.universe.getChildren()) {
+            uniObj.grounded = false;
+
             for (let platform of this.platforms.getChildren()) {
                 // universe object hit the ground
                 if (overlaps(uniObj, platform)) {
