@@ -13,6 +13,8 @@ export default class extends Phaser.GameObjects.Sprite {
         this.grounded = false;
 
         this.initKeyBinds(scene);
+        this.sfx = {};
+        this.sfx.jump = scene.sound.add('jump');
     }
 
     initKeyBinds(scene) {
@@ -26,6 +28,7 @@ export default class extends Phaser.GameObjects.Sprite {
             // TODO is changing grounded here right?
             // this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
+            this.sfx.jump.play();
         }
 
         if (this.keyLeft.isDown) {
@@ -66,7 +69,7 @@ export default class extends Phaser.GameObjects.Sprite {
         this.x += this.vectorX;
         this.y -= this.vectorY;
 
-        console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
+        // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
     decayVectorX() {

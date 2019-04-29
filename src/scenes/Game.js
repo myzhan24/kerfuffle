@@ -22,7 +22,6 @@ export default class extends Phaser.Scene {
     }
 
 
-
     create() {
         this.universe = this.add.group();
         this.universe.runChildUpdate = true;
