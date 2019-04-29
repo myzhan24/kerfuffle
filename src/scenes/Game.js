@@ -2,7 +2,7 @@
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
-import Platform from '../sprites/Platform';
+import Boundary from '../sprites/Boundary';
 import { overlaps } from '../utils';
 
 export default class extends Phaser.Scene {
@@ -43,11 +43,28 @@ export default class extends Phaser.Scene {
             asset: 'mushroom'
         });
 
-        this.bottomPlatform = new Platform({
+        this.topBoundary = new Boundary({
             scene: this,
-            x: 0,
-            y: 300,
-            asset: 'platform'
+            asset: 'platform',
+            direction: 0
+        });
+
+        this.rightBoundary = new Boundary({
+            scene: this,
+            asset: 'platform',
+            direction: 1
+        });
+
+        this.bottomPlatform = new Boundary({
+            scene: this,
+            asset: 'platform',
+            direction: 2
+        });
+
+        this.leftBoundary = new Boundary({
+            scene: this,
+            asset: 'platform',
+            direction: 3
         });
 
         this.universe.add(this.add.existing(this.player));
@@ -57,8 +74,10 @@ export default class extends Phaser.Scene {
             font: '64px Bangers',
             fill: '#7744ff'
         });
-
+        this.add.existing(this.rightBoundary);
+        this.add.existing(this.leftBoundary);
         this.platforms.add(this.add.existing(this.bottomPlatform));
+        this.add.existing(this.topBoundary);
     }
 
     update() {
