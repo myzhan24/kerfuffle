@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { overlaps } from '../utils';
 
 export default class extends Phaser.GameObjects.Sprite {
     constructor({scene, asset, direction}) {
@@ -46,6 +47,49 @@ export default class extends Phaser.GameObjects.Sprite {
             case 3: // W
                 this.displayHeight = scene.sys.game.config.height;
                 break;
+        }
+    }
+
+    keepSpriteInBounds(sprite) {
+        if (overlaps(this, sprite)) {
+            // S is ground
+            if (this.direction === 2) {
+                try {
+                    sprite.grounded = true;
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+
+            switch (this.direction) {
+                case 0: // N
+                    sprite.y = this.y + this.height + sprite.height / 2;
+                    if (sprite.vectorY < 0) {
+                        sprite.vectorY = 0;
+                    }
+                    break;
+
+                case 1: // E
+                    sprite.x = this.x - sprite.height / 2;
+                    if (sprite.vectorX < 0) {
+                        sprite.vectorX = 0;
+                    }
+                    break;
+
+                case 2: // S
+                    sprite.y = this.y - sprite.height / 2;
+                    if (sprite.vectorY < 0) {
+                        sprite.vectorY = 0;
+                    }
+                    break;
+
+                case 3: // W
+                    sprite.x = this.x + this.width + sprite.height / 2;
+                    if (sprite.vectorX < 0) {
+                        sprite.vectorX = 0;
+                    }
+                    break;
+            }
         }
     }
 }
