@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import { Physics, Player } from '../constants/PlayerConstants';
+import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
 
 export default class extends Phaser.GameObjects.Sprite {
