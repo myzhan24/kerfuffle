@@ -1,11 +1,13 @@
 import Phaser from 'phaser'
-import { Player, Physics } from '../constants/PlayerConstants';
+import { Physics, Player } from '../constants/PlayerConstants';
+import { clamp } from '../config';
 
 export default class extends Phaser.GameObjects.Sprite {
     constructor({scene, x, y, asset}) {
         super(scene, x, y, asset);
         this.vectorX = 0;
         this.vectorY = 0;
+        this.inputAccelX = 0;
         this.accelX = 0;
         this.accelY = 0;
         this.grounded = false;
@@ -21,50 +23,74 @@ export default class extends Phaser.GameObjects.Sprite {
 
     updateKeyBinds() {
         if (this.keyA.isDown && this.grounded) {
+            // TODO is changing grounded here right?
             this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
         }
 
-        if (this.keyLeft.isDown && this.vectorX > -10) {
-            this.accelX = -5;
-        } else if (this.keyRight.isDown && this.vectorX < 10) {
-            this.accelX = 5;
+        if (this.keyLeft.isDown) {
+            // Left Pressed
+            this.inputAccelX = -this.getAccelMu() * Player.accel;
+        } else if (this.keyRight.isDown) {
+            // Right Pressed
+            this.inputAccelX = this.getAccelMu() * Player.accel;
         } else {
-            this.accelX = 0;
-            // this.decayVectorX();
-        }
-
-        // Assume this object can only overlap with one platform at a time.
-        if (!this.keyLeft.isDown && !this.keyRight.isDown) {
-            this.decayVectorX();
+            // Neither Left or Right is being pressed.
+            // Stop moving when reaching a low enough speed
+            if (Math.abs(this.getVectorX()) <= 0.5) {
+                this.inputAccelX = (0);
+                this.setVectorX(0);
+            } else {
+                if (this.getVectorX() < 0) {
+                    this.inputAccelX = (this.getFrictionMu() * Player.frictionAccel);
+                } else if (this.getVectorX() > 0) {
+                    this.inputAccelX = (-this.getFrictionMu() * Player.frictionAccel);
+                } else {
+                    this.inputAccelX = 0;
+                }
+            }
         }
     }
 
     update() {
         this.updateKeyBinds();
+        this.decayVectorX();
+
+        if (this.inputAccelX > 0) {
+            if (this.vectorX < Player.maxRunSpeed) {
+                this.vectorX += this.inputAccelX;
+                this.vectorX = clamp(this.vectorX, -Player.maxRunSpeed, Player.maxRunSpeed);
+            }
+        } else if (this.inputAccelX < 0) {
+            if (this.vectorX > -Player.maxRunSpeed) {
+                this.vectorX += this.inputAccelX;
+                this.vectorX = clamp(this.vectorX, -Player.maxRunSpeed, Player.maxRunSpeed);
+            }
+        }
+
         this.vectorX += this.accelX;
         this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
         this.y -= this.vectorY;
+
+        console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
     decayVectorX() {
-        if (this.getVectorX() < 0) {
-            this.setAccelX(1);
-        } else if (this.getVectorX() > 0) {
-            this.setAccelX(-1);
-        }
 
-        if (Math.abs(this.getVectorX()) <= 0.5) {
-            this.setAccelX(0);
-            this.setVectorX(0);
-        }
-        // console.log('mz decay', this.getVectorX(), this.accelX);
     }
 
-    /*decayVectorX() {
-     this.setVectorX(this.getVectorX() / 1.05);
-     }*/
+    /**
+     * returns an acceleration of friction in the opposite magnitude this player is translating.
+     * @returns {number}
+     */
+    getFrictionMu() {
+        return this.grounded ? Physics.groundFrictionMu : Physics.airFrictionMu;
+    }
+
+    getAccelMu() {
+        return this.grounded ? Physics.groundAccelMu : Physics.airAccelMu;
+    }
 
     setVectorX(vector) {
         this.vectorX = vector;

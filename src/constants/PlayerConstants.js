@@ -1,13 +1,15 @@
 export const Physics = {
     gravity: -0.8,
-    airAccel: 0.3,
-    groundAccel: 1,
-    airFriction: 0.3,
-    groundFriction: 1
+    airAccelMu: 0.5,
+    groundAccelMu: 1,
+    airFrictionMu: 0.25,
+    groundFrictionMu: 2
 }
 
 export const Player = {
     accel: 5,
-    jumpSpeed: 15
+    frictionAccel: 1,
+    jumpSpeed: 15,
+    maxRunSpeed: 10
 }
 
