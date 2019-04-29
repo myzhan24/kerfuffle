@@ -2,7 +2,7 @@
   "parser": "babel-eslint",
   "extends": "standard",
   "rules": {
-    "indent": ["error", 4],
+    "indent": ["error", 4, {"SwitchCase": 1}],
     "object-curly-spacing": "off",
     "space-before-function-paren": "off",
     "semi": "off"
