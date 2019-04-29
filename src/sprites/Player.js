@@ -37,15 +37,11 @@ export default class extends Phaser.GameObjects.Sprite {
         } else {
             // Neither Left or Right is being pressed.
             // Stop moving when reaching a low enough speed
-            if (Math.abs(this.getVectorX()) <= 0.5) {
-                this.inputAccelX = (0);
+            if (this.getVectorX() === 0 || Math.abs(this.getVectorX()) <= (Physics.groundFrictionMu * Player.frictionAccel) / 2) {
+                this.inputAccelX = 0;
                 this.setVectorX(0);
             } else {
-                if (this.getVectorX() === 0) {
-                    this.inputAccelX = 0;
-                } else {
-                    this.inputAccelX = this.getFrictionMu() * Player.frictionAccel * (this.getVectorX() < 0 ? 1 : -1);
-                }
+                this.inputAccelX = this.getFrictionMu() * Player.frictionAccel * (this.getVectorX() < 0 ? 1 : -1);
             }
         }
     }
