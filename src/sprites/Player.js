@@ -16,9 +16,7 @@ export default class extends Phaser.GameObjects.Sprite {
         this.y -= this.vectorY;
     }
 
-
     decayVectorX() {
-
         if (this.getVectorX() < 0) {
             this.setAccelX(1);
         } else if (this.getVectorX() > 0) {
