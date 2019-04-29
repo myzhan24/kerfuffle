@@ -41,12 +41,10 @@ export default class extends Phaser.GameObjects.Sprite {
                 this.inputAccelX = (0);
                 this.setVectorX(0);
             } else {
-                if (this.getVectorX() < 0) {
-                    this.inputAccelX = (this.getFrictionMu() * Player.frictionAccel);
-                } else if (this.getVectorX() > 0) {
-                    this.inputAccelX = (-this.getFrictionMu() * Player.frictionAccel);
-                } else {
+                if (this.getVectorX() === 0) {
                     this.inputAccelX = 0;
+                } else {
+                    this.inputAccelX = this.getFrictionMu() * Player.frictionAccel * (this.getVectorX() < 0 ? 1 : -1);
                 }
             }
         }
@@ -54,7 +52,6 @@ export default class extends Phaser.GameObjects.Sprite {
 
     update() {
         this.updateKeyBinds();
-        this.decayVectorX();
 
         if (this.inputAccelX > 0) {
             if (this.vectorX < Player.maxRunSpeed) {
