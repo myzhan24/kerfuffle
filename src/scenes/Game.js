@@ -18,25 +18,10 @@ export default class extends Phaser.Scene {
     }
 
     initKeyBinds() {
-        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
     }
 
-    updateKeyBinds() {
-        if (this.keyA.isDown) {
-            this.player.vectorY = 15;
-        }
 
-        if (this.keyLeft.isDown && this.player.vectorX > -10) {
-            this.player.accelX = -5;
-        } else if (this.keyRight.isDown && this.player.vectorX < 10) {
-            this.player.accelX = 5;
-        } else {
-            this.player.accelX = 0;
-            // this.player.decayVectorX();
-        }
-    }
 
     create() {
         this.universe = this.add.group();
@@ -78,29 +63,28 @@ export default class extends Phaser.Scene {
     }
 
     update() {
-        this.updateKeyBinds();
+        // this.updateKeyBinds();
         // If a universe Object intersects with a platform, reset its y and vector y
         for (let uniObj of this.universe.getChildren()) {
             for (let platform of this.platforms.getChildren()) {
+                // universe object hit the ground
                 if (overlaps(uniObj, platform)) {
-                    uniObj.y = platform.y - uniObj.height / 2;
+                    uniObj.grounded = true;
 
+                    uniObj.y = platform.y - uniObj.height / 2;
                     if (uniObj.vectorY < 0) {
                         uniObj.vectorY = 0;
                     }
-                    // Assume this object can only overlap with one platform at a time.
 
-                    if (!this.keyLeft.isDown && !this.keyRight.isDown) {
-                        uniObj.decayVectorX();
-                    }
+                    // Assume this object can only overlap with one platform at a time.
+                    // if (!this.keyLeft.isDown && !this.keyRight.isDown) {
+                    //     uniObj.decayVectorX();
+                    // }
 
 
                     break;
                 }
             }
         }
-
-
-        console.log('player', this.player.vectorX);
     }
 }
