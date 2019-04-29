@@ -3,6 +3,7 @@ import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
 import Boundary from '../sprites/Boundary';
+import Platform from '../sprites/Platform';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -64,6 +65,8 @@ export default class extends Phaser.Scene {
             direction: 3
         });
 
+
+
         this.universe.add(this.add.existing(this.player));
         this.universe.add(this.add.existing(this.mushroom));
 
@@ -72,7 +75,38 @@ export default class extends Phaser.Scene {
             fill: '#7744ff'
         });
 
-        this.boundaries.addMultiple([this.add.existing(this.topBoundary), this.add.existing(this.rightBoundary), this.add.existing(this.bottomBoundary), this.add.existing(this.leftBoundary)]);
+
+        this.platformA = new Platform({scene: this, x: 400, y: 500, w: 100, h: 5, asset: 'platform', direction: 2});
+        this.platformA2 = new Platform({scene: this, x: 400, y: 505, w: 100, h: 5, asset: 'platform', direction: 0});
+
+        this.platformB = new Platform({scene: this, x: 200, y: 700, w: 100, h: 5, asset: 'platform', direction: 2});
+
+        this.platformEN = new Platform({scene: this, x: 400, y: 700, w: 100, h: 1, asset: 'platform', direction: 2});
+        this.platformES = new Platform({scene: this, x: 400, y: 720, w: 100, h: 1, asset: 'platform', direction: 0});
+
+        this.platformEE = new Platform({scene: this, x: 510, y: 710, w: 1, h: 1, asset: 'platform', direction: 3});
+
+        this.platformEW = new Platform({scene: this, x: 390, y: 710, w: 1, h: 1, asset: 'platform', direction: 1});
+
+        this.platformC = new Platform({scene: this, x: 600, y: 300, w: 100, h: 5, asset: 'platform', direction: 2});
+
+        this.platformD = new Platform({scene: this, x: 800, y: 200, w: 100, h: 5, asset: 'platform', direction: 2});
+
+        this.boundaries.addMultiple([
+            this.add.existing(this.topBoundary),
+            this.add.existing(this.rightBoundary),
+            this.add.existing(this.bottomBoundary),
+            this.add.existing(this.leftBoundary),
+            this.add.existing(this.platformA),
+            this.add.existing(this.platformA2),
+            this.add.existing(this.platformES),
+            this.add.existing(this.platformEN),
+            this.add.existing(this.platformEE),
+            this.add.existing(this.platformEW),
+            this.add.existing(this.platformB),
+            this.add.existing(this.platformC),
+            this.add.existing(this.platformD)
+        ]);
     }
 
     update() {
@@ -81,7 +115,9 @@ export default class extends Phaser.Scene {
             child.grounded = false;
 
             for (let boundary of this.boundaries.getChildren()) {
-                boundary.keepSpriteInBounds(child);
+                if (boundary.keepSpriteInBounds(child)) {
+                    break;
+                }
             }
         }
     }

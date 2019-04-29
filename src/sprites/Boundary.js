@@ -24,11 +24,11 @@ export default class extends Platform {
                 break;
 
             case 1: // E
-                this.x = scene.sys.game.config.width - this.width;
+                this.x = scene.sys.game.config.width - this.displayWidth;
                 break;
 
             case 2: // S
-                this.y = scene.sys.game.config.height - this.height;
+                this.y = scene.sys.game.config.height - this.displayHeight;
                 break;
 
             case 3: // W

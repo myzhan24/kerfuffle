@@ -30,33 +30,37 @@ export default class extends Phaser.GameObjects.Sprite {
 
             switch (this.direction) {
                 case 0: // N
-                    sprite.y = this.y + this.height + sprite.height / 2;
-                    if (sprite.vectorY < 0) {
+                    sprite.y = this.y + this.displayHeight + sprite.displayHeight / 2;
+                    if (sprite.vectorY > 0) {
                         sprite.vectorY = 0;
                     }
                     break;
 
                 case 1: // E
-                    sprite.x = this.x - sprite.height / 2;
+                    sprite.x = this.x - sprite.displayHeight / 2;
                     if (sprite.vectorX < 0) {
                         sprite.vectorX = 0;
                     }
                     break;
 
                 case 2: // S
-                    sprite.y = this.y - sprite.height / 2;
+                    sprite.y = this.y - sprite.displayHeight / 2;
                     if (sprite.vectorY < 0) {
                         sprite.vectorY = 0;
                     }
                     break;
 
                 case 3: // W
-                    sprite.x = this.x + this.width + sprite.height / 2;
+                    sprite.x = this.x + this.displayWidth + sprite.height / 2;
                     if (sprite.vectorX < 0) {
                         sprite.vectorX = 0;
                     }
                     break;
             }
+
+            return true;
         }
+
+        return false;
     }
 }
