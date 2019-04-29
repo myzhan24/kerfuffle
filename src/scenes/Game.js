@@ -25,23 +25,13 @@ export default class extends Phaser.Scene {
 
     updateKeyBinds() {
         if (this.keyA.isDown) {
-            this.player.vectorY = 11;
+            this.player.vectorY = 15;
         }
 
         if (this.keyLeft.isDown && this.player.vectorX > -10) {
-            this.player.accelX = -1;
-            if (this.player.vectorX == 0) {
-                this.player.setVectorX(-6);
-            } else if (this.player.vectorX > 0) {
-                this.player.setVectorX(-3);
-            }
+            this.player.accelX = -5;
         } else if (this.keyRight.isDown && this.player.vectorX < 10) {
-            this.player.accelX = 1;
-            if (this.player.vectorX == 0) {
-                this.player.setVectorX(6);
-            } else if (this.player.vectorX < 0) {
-                this.player.setVectorX(3)
-            }
+            this.player.accelX = 5;
         } else {
             this.player.accelX = 0;
             // this.player.decayVectorX();
