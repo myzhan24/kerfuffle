@@ -18,13 +18,13 @@ export default class extends Phaser.GameObjects.Sprite {
     }
 
     initKeyBinds(scene) {
-        this.keyA = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keySpace = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
 
     updateKeyBinds() {
-        if (this.keyA.isDown && this.grounded) {
+        if (this.keySpace.isDown && this.grounded) {
             // TODO is changing grounded here right?
             // this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
