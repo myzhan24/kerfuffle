@@ -5,6 +5,7 @@ import Player from '../sprites/Player';
 import Boundary from '../sprites/Boundary';
 import BottomPlatform from '../sprites/platforms/BottomPlatform';
 import BottomBoundary from '../sprites/platforms/BottomBoundary';
+import RightBoundary from '../sprites/platforms/RightBoundary';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -48,10 +49,9 @@ export default class extends Phaser.Scene {
             direction: 0
         });
 
-        this.rightBoundary = new Boundary({
+        this.rightBoundary = new RightBoundary({
             scene: this,
-            asset: 'platform',
-            direction: 1
+            asset: 'platform'
         });
 
         this.bottomBoundary = new BottomBoundary({
@@ -75,10 +75,10 @@ export default class extends Phaser.Scene {
 
         this.test = new BottomPlatform({scene: this, x: 200, y: 750, w: 100, h: 20, asset: 'platform'});
         this.boundaries.addMultiple([
-            this.add.existing(this.topBoundary),
+            // this.add.existing(this.topBoundary),
             this.add.existing(this.rightBoundary),
             this.add.existing(this.bottomBoundary),
-            this.add.existing(this.leftBoundary),
+            // this.add.existing(this.leftBoundary),
             this.add.existing(this.test)
         ]);
 
@@ -88,11 +88,11 @@ export default class extends Phaser.Scene {
     update() {
         // If a universe Object intersects with a platform, reset its y and vector y
         for (let child of this.universe.getChildren()) {
-            child.grounded = false;
+            // child.grounded = false;
 
             for (let boundary of this.boundaries.getChildren()) {
-                if (boundary.keepSpriteInBounds(child)) {
-
+                if (boundary.shouldInfluence(child)) {
+                    child.addInfluence(boundary);
                 }
             }
         }

@@ -37,4 +37,12 @@ export default class extends Phaser.GameObjects.Sprite {
     shouldInfluence(sprite) {
         return overlaps(this, sprite);
     }
+
+    /**
+     * By default does not halt input
+     * @returns {boolean}
+     */
+    haltsMovement() {
+        return false;
+    }
 }

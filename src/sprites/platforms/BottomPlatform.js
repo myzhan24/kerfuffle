@@ -18,6 +18,19 @@ export default class extends AbstractPlatform {
         return overlaps(this, sprite) && this.isBelow(sprite);
     }
 
+    influence(sprite) {
+        // console.log('A');
+        if (sprite.vectorY < 0) {
+            // console.log('B');
+            sprite.y = this.y - sprite.displayHeight / 2;
+            if (sprite.vectorY < 0 && !sprite.grounded) {
+                sprite.vectorY = 0;
+                sprite.grounded = true;
+                // console.log('C')
+            }
+        }
+    }
+
     keepSpriteInBounds(sprite) {
         if (this.shouldInfluence(sprite)) {
             if (sprite.vectorY < 0) {

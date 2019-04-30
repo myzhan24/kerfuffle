@@ -1,7 +1,6 @@
 import Phaser from 'phaser'
 import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
-import { overlaps } from '../utils';
 
 export default class extends Phaser.GameObjects.Sprite {
     constructor({scene, x, y, asset}) {
@@ -20,7 +19,7 @@ export default class extends Phaser.GameObjects.Sprite {
         this.sfx.psi = scene.sound.add('psi');
 
         this.overlappingPlatforms = new Set();
-
+        this.influences = new Set();
     }
 
     initKeyBinds(scene) {
@@ -61,39 +60,29 @@ export default class extends Phaser.GameObjects.Sprite {
     }
 
     update() {
+        // console.log('grounded', this.grounded);
         this.updateKeyBinds();
-
-        let tempAccelX = 0;
-        let tempAccelY = 0;
-
-        if (this.overlappingPlatforms.size > 0) {
+        this.grounded = false;
+        const oldY = this.y;
+        let proposedY = this.y;
+        if (this.influences.size > 0) {
             let nextSet = new Set();
-            for (let platform of this.overlappingPlatforms.values()) {
-                if (overlaps(this, platform)) {
-                    switch (platform.direction) {
-                        case 0:
-                            tempAccelY -= 10;
-                            break;
-                        case 1:
-                            tempAccelX -= 3;
-                            this.inputAccelX = 0;
-                            break;
-                        case 2:
-                            tempAccelY += 10;
-                            break;
-                        case 3:
-                            tempAccelX += 3;
-                            this.inputAccelX = 0;
-                            break;
-                    }
 
-                    nextSet.add(platform);
+            for (let influence of this.influences.values()) {
+                if (influence.shouldInfluence(this)) {
+                    influence.influence(this);
+                    if (influence.haltsMovement()) {
+                        this.inputAccelX = 0;
+                    }
+                    nextSet.add(influence);
                 }
             }
 
-            this.overlappingPlatforms = nextSet;
+            this.influences = nextSet;
         }
 
+        let yChangedByInfluence = this.y !== oldY;
+        console.log('oldY', oldY, 'newY', this.y, 'y changed', yChangedByInfluence, 'grounded', this.grounded);
         if (this.inputAccelX > 0) {
             if (this.vectorX < Player.maxRunSpeed) {
                 this.vectorX += this.inputAccelX;
@@ -106,16 +95,27 @@ export default class extends Phaser.GameObjects.Sprite {
             }
         }
 
-        this.vectorX += this.accelX + tempAccelX;
-        this.vectorY += this.accelY + tempAccelY + Physics.gravity;
+        this.vectorX += this.accelX;
+        this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
         this.y -= this.vectorY;
+
 
         // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
+    /**
+     * A class that implements Influence will have three methods
+     * shouldInfluence(sprite)
+     * influence(sprite)
+     * haltsMovement()
+     *
+     * @param obj
+     */
     addInfluence(obj) {
-
+        if (!this.influences.has(obj)) {
+            this.influences.add(obj);
+        }
     }
 
     addIntersecting(platform) {
