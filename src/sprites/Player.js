@@ -59,30 +59,45 @@ export default class extends Phaser.GameObjects.Sprite {
         }
     }
 
-    update() {
-        // console.log('grounded', this.grounded);
-        this.updateKeyBinds();
-        this.grounded = false;
-        const oldY = this.y;
-        let proposedY = this.y;
+    updateVectorInfluences() {
         if (this.influences.size > 0) {
             let nextSet = new Set();
 
             for (let influence of this.influences.values()) {
                 if (influence.shouldInfluence(this)) {
+                    nextSet.add(influence);
                     influence.influence(this);
                     if (influence.haltsMovement()) {
                         this.inputAccelX = 0;
                     }
-                    nextSet.add(influence);
                 }
             }
 
             this.influences = nextSet;
         }
+    }
 
-        let yChangedByInfluence = this.y !== oldY;
-        console.log('oldY', oldY, 'newY', this.y, 'y changed', yChangedByInfluence, 'grounded', this.grounded);
+    updatePositionInfluences() {
+        if (this.influences.size > 0) {
+            let nextSet = new Set();
+
+            for (let influence of this.influences.values()) {
+                if (influence.shouldInfluence(this)) {
+                    nextSet.add(influence);
+                    this.x = influence.influenceX(this, this.x);
+                    this.y = influence.influenceY(this, this.y);
+                }
+            }
+
+            this.influences = nextSet;
+        }
+    }
+
+    update() {
+        this.updateKeyBinds();
+        this.grounded = false;
+        this.updateVectorInfluences();
+
         if (this.inputAccelX > 0) {
             if (this.vectorX < Player.maxRunSpeed) {
                 this.vectorX += this.inputAccelX;
@@ -99,9 +114,6 @@ export default class extends Phaser.GameObjects.Sprite {
         this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
         this.y -= this.vectorY;
-
-
-        // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
     /**

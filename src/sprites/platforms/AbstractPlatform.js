@@ -38,6 +38,18 @@ export default class extends Phaser.GameObjects.Sprite {
         return overlaps(this, sprite);
     }
 
+    influence(sprite) {
+
+    }
+
+    influenceX(sprite, proposedX) {
+        return proposedX;
+    }
+
+    influenceY(sprite, proposedY) {
+        return proposedY;
+    }
+
     /**
      * By default does not halt input
      * @returns {boolean}

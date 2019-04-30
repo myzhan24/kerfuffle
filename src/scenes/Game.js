@@ -26,7 +26,7 @@ export default class extends Phaser.Scene {
 
     create() {
         this.universe = this.add.group();
-        this.universe.runChildUpdate = true;
+        // this.universe.runChildUpdate = true;
         this.boundaries = this.add.group();
 
         this.mushroom = new Mushroom({
@@ -66,7 +66,7 @@ export default class extends Phaser.Scene {
         });
 
         this.universe.add(this.add.existing(this.player));
-        this.universe.add(this.add.existing(this.mushroom));
+        // this.universe.add(this.add.existing(this.mushroom));
 
         this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
             font: '64px Bangers',
@@ -88,6 +88,7 @@ export default class extends Phaser.Scene {
     update() {
         // If a universe Object intersects with a platform, reset its y and vector y
         for (let child of this.universe.getChildren()) {
+            child.update();
             // child.grounded = false;
 
             for (let boundary of this.boundaries.getChildren()) {
@@ -95,8 +96,9 @@ export default class extends Phaser.Scene {
                     child.addInfluence(boundary);
                 }
             }
+
+            child.updatePositionInfluences();
         }
     }
-
 
 }
