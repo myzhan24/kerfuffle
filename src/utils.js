@@ -13,3 +13,9 @@ export function overlaps(spriteA, spriteB) {
 export function isPresent(obj) {
     return obj !== null && obj !== undefined;
 }
+
+export function dist(a, b) {
+    const xD = a.x - b.x;
+    const yD = a.y - b.y;
+    return Math.sqrt(xD * xD + yD * yD);
+}

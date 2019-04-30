@@ -2,15 +2,13 @@ import Phaser from 'phaser'
 import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
 import UniverseObject from './UniverseObject';
+import Water from './skills/Water';
 
 export default class extends UniverseObject {
-    constructor({scene, x, y, asset}) {
-        super({scene, x, y, asset});
-        this.vectorX = 0;
-        this.vectorY = 0;
+    constructor({scene, x, y, asset, universe}) {
+        super({scene, x, y, asset, universe});
         this.inputAccelX = 0;
-        this.accelX = 0;
-        this.accelY = 0;
+
         this.grounded = false;
         this.pushRight = false;
 
@@ -25,6 +23,7 @@ export default class extends UniverseObject {
 
     initKeyBinds(scene) {
         this.keyQ = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
+        this.keyQ.emitOnRepeat = false;
         this.keySpace = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -39,7 +38,15 @@ export default class extends UniverseObject {
         }
 
         if (this.keyQ.isDown) {
-            this.sfx.psi.play();
+            this.water = new Water({
+                scene: this.scene,
+                asset: 'rain',
+                parent: this
+            });
+            this.universe.add(this.scene.add.existing(this.water));
+            // if (!this.sfx.psi.isPlaying) {
+            //     this.sfx.psi.play();
+            // }
         }
 
         if (this.keyLeft.isDown) {

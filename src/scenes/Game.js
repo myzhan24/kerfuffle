@@ -7,7 +7,6 @@ import BottomBoundary from '../sprites/platforms/BottomBoundary';
 import RightBoundary from '../sprites/platforms/RightBoundary';
 import LeftBoundary from '../sprites/platforms/LeftBoundary';
 import TopBoundary from '../sprites/platforms/TopBoundary';
-import Water from '../sprites/skills/Water';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -42,14 +41,11 @@ export default class extends Phaser.Scene {
             scene: this,
             x: 200,
             y: 300,
-            asset: 'mushroom'
+            asset: 'mushroom',
+            universe: this.universe
         });
 
-        this.water = new Water({
-            scene: this,
-            asset: 'rain',
-            parent: this.player
-        });
+
 
         this.topBoundary = new TopBoundary({
             scene: this,
@@ -73,7 +69,7 @@ export default class extends Phaser.Scene {
 
         this.universe.add(this.add.existing(this.player));
         // this.universe.add(this.add.existing(this.mushroom));
-        this.universe.add(this.add.existing(this.water));
+        // this.universe.add(this.add.existing(this.water));
 
         this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
             font: '64px Bangers',
