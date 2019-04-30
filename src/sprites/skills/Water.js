@@ -10,7 +10,7 @@ export default class extends UniverseObject {
     }
 
     putAroundParent() {
-        const radius = Math.random() * 50 + this.parent.displayHeight / 2 + 50;
+        const radius = Math.random() * 50 + this.parent.displayHeight / 3;
         const angle = Math.random() * 2 * Math.PI;
         const sideX = Math.cos(angle) * radius;
         const sideY = Math.sin(angle) * radius;
@@ -27,8 +27,6 @@ export default class extends UniverseObject {
     }
 
     update() {
-
-
         const sideX = this.x - this.parent.x;
         const sideY = this.y - this.parent.y;
         const cLength = dist(this, this.parent);
