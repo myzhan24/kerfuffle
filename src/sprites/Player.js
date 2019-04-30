@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
+import { overlaps } from '../utils';
 
 export default class extends Phaser.GameObjects.Sprite {
     constructor({scene, x, y, asset}) {
@@ -17,6 +18,9 @@ export default class extends Phaser.GameObjects.Sprite {
         this.sfx = {};
         this.sfx.jump = scene.sound.add('jump');
         this.sfx.psi = scene.sound.add('psi');
+
+        this.overlappingPlatforms = new Set();
+
     }
 
     initKeyBinds(scene) {
@@ -59,6 +63,37 @@ export default class extends Phaser.GameObjects.Sprite {
     update() {
         this.updateKeyBinds();
 
+        let tempAccelX = 0;
+        let tempAccelY = 0;
+
+        if (this.overlappingPlatforms.size > 0) {
+            let nextSet = new Set();
+            for (let platform of this.overlappingPlatforms.values()) {
+                if (overlaps(this, platform)) {
+                    switch (platform.direction) {
+                        case 0:
+                            tempAccelY -= 10;
+                            break;
+                        case 1:
+                            tempAccelX -= 3;
+                            this.inputAccelX = 0;
+                            break;
+                        case 2:
+                            tempAccelY += 10;
+                            break;
+                        case 3:
+                            tempAccelX += 3;
+                            this.inputAccelX = 0;
+                            break;
+                    }
+
+                    nextSet.add(platform);
+                }
+            }
+
+            this.overlappingPlatforms = nextSet;
+        }
+
         if (this.inputAccelX > 0) {
             if (this.vectorX < Player.maxRunSpeed) {
                 this.vectorX += this.inputAccelX;
@@ -71,18 +106,18 @@ export default class extends Phaser.GameObjects.Sprite {
             }
         }
 
-        console.log('push right', this.pushRight);
-
-        this.vectorX += this.accelX + this.pushRight ? 10 : 0;
-        this.vectorY += this.accelY + Physics.gravity;
+        this.vectorX += this.accelX + tempAccelX;
+        this.vectorY += this.accelY + tempAccelY + Physics.gravity;
         this.x += this.vectorX;
         this.y -= this.vectorY;
 
         // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
-    addPush(platform) {
-
+    addIntersecting(platform) {
+        if (!this.overlappingPlatforms.has(platform)) {
+            this.overlappingPlatforms.add(platform);
+        }
     }
 
     decayVectorX() {

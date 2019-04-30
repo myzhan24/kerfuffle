@@ -42,7 +42,8 @@ export default class extends Phaser.GameObjects.Sprite {
                     //     sprite.vectorX = 0;
                     // }
 
-                    sprite.accelX = -5;
+                    // sprite.accelX = -5;
+                    sprite.addIntersecting(this);
                     break;
 
                 case 2: // S
@@ -58,8 +59,8 @@ export default class extends Phaser.GameObjects.Sprite {
                     // if (sprite.vectorX < 0) {
                     //     sprite.vectorX = 0;
                     // }
-                    console.log('XD');
-                    sprite.pushRight = true;
+
+                    sprite.addIntersecting(this);
                     break;
             }
 
