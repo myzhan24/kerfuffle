@@ -11,6 +11,7 @@ export default class extends Phaser.GameObjects.Sprite {
         this.accelX = 0;
         this.accelY = 0;
         this.grounded = false;
+        this.pushRight = false;
 
         this.initKeyBinds(scene);
         this.sfx = {};
@@ -70,12 +71,18 @@ export default class extends Phaser.GameObjects.Sprite {
             }
         }
 
-        this.vectorX += this.accelX;
+        console.log('push right', this.pushRight);
+
+        this.vectorX += this.accelX + this.pushRight ? 10 : 0;
         this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
         this.y -= this.vectorY;
 
         // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
+    }
+
+    addPush(platform) {
+
     }
 
     decayVectorX() {

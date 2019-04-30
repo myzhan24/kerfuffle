@@ -37,10 +37,12 @@ export default class extends Phaser.GameObjects.Sprite {
                     break;
 
                 case 1: // E
-                    sprite.x = this.x - sprite.displayHeight / 2;
-                    if (sprite.vectorX < 0) {
-                        sprite.vectorX = 0;
-                    }
+                    // sprite.x = this.x - sprite.displayHeight / 2;
+                    // if (sprite.vectorX < 0) {
+                    //     sprite.vectorX = 0;
+                    // }
+
+                    sprite.accelX = -5;
                     break;
 
                 case 2: // S
@@ -48,18 +50,45 @@ export default class extends Phaser.GameObjects.Sprite {
                     if (sprite.vectorY < 0) {
                         sprite.vectorY = 0;
                     }
+
                     break;
 
                 case 3: // W
-                    sprite.x = this.x + this.displayWidth + sprite.height / 2;
-                    if (sprite.vectorX < 0) {
-                        sprite.vectorX = 0;
-                    }
+                    // sprite.x = this.x + this.displayWidth + sprite.height / 2;
+                    // if (sprite.vectorX < 0) {
+                    //     sprite.vectorX = 0;
+                    // }
+                    console.log('XD');
+                    sprite.pushRight = true;
                     break;
             }
 
             return true;
+        } else {
+            switch (this.direction) {
+                case 0: // N
+
+                    break;
+
+                case 1: // E
+
+                    break;
+
+                case 2: // S
+
+                    break;
+
+                case 3: // W
+                    // sprite.x = this.x + this.displayWidth + sprite.height / 2;
+                    // if (sprite.vectorX < 0) {
+                    //     sprite.vectorX = 0;
+                    // }
+
+
+                    break;
+            }
         }
+
 
         return false;
     }
