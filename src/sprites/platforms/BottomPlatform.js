@@ -16,7 +16,7 @@ export default class extends AbstractPlatform {
     }
 
     shouldInfluence(sprite) {
-        return overlaps(this, sprite) && this.isBelow(sprite);
+        return sprite.vectorY <= 0 && overlaps(this, sprite) && this.isBelow(sprite);
     }
 
     influence(sprite) {

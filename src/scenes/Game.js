@@ -72,13 +72,30 @@ export default class extends Phaser.Scene {
             fill: '#7744ff'
         });
 
-        this.test = new BottomPlatform({scene: this, x: 200, y: 750, w: 100, h: 20, asset: 'platform'});
+        this.test = new BottomPlatform({scene: this, x: 200, y: 700, w: 100, h: 20, asset: 'platform'});
+
+        this.b = new BottomPlatform({scene: this, x: 200, y: 600, w: 100, h: 20, asset: 'platform'});
+
+        this.c = new BottomPlatform({scene: this, x: 200, y: 500, w: 100, h: 20, asset: 'platform'});
+
+        this.d = new BottomPlatform({scene: this, x: 200, y: 400, w: 100, h: 20, asset: 'platform'});
+
+        this.e = new BottomPlatform({scene: this, x: 200, y: 300, w: 100, h: 20, asset: 'platform'});
+
+        this.f = new BottomPlatform({scene: this, x: 200, y: 200, w: 100, h: 20, asset: 'platform'});
+
         this.boundaries.addMultiple([
             this.add.existing(this.rightBoundary),
             this.add.existing(this.leftBoundary),
             this.add.existing(this.topBoundary),
             this.add.existing(this.bottomBoundary),
-            this.add.existing(this.test)
+            this.add.existing(this.test),
+            this.add.existing(this.b),
+            this.add.existing(this.c),
+            this.add.existing(this.d),
+            this.add.existing(this.e),
+            this.add.existing(this.f),
+
         ]);
 
 
