@@ -18,6 +18,7 @@ export default class extends Phaser.Scene {
         this.load.audio('cursor1', './assets/audio/SoundEffects/cursor1.wav');
         this.load.audio('cursor2', './assets/audio/SoundEffects/cursor2.wav');
         this.load.audio('jump', './assets/audio/SoundEffects/jump.mp3');
+        this.load.audio('psi', './assets/audio/SoundEffects/psi.wav');
 
         WebFont.load({
             google: {

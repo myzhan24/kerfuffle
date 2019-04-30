@@ -97,8 +97,8 @@ export default class extends Phaser.Scene {
             this.add.existing(this.rightBoundary),
             this.add.existing(this.bottomBoundary),
             this.add.existing(this.leftBoundary),
-            this.add.existing(this.platformA),
-            this.add.existing(this.platformA2),
+            // this.add.existing(this.platformA),
+            // this.add.existing(this.platformA2),
             this.add.existing(this.platformES),
             this.add.existing(this.platformEN),
             this.add.existing(this.platformEE),
@@ -116,7 +116,7 @@ export default class extends Phaser.Scene {
 
             for (let boundary of this.boundaries.getChildren()) {
                 if (boundary.keepSpriteInBounds(child)) {
-                    break;
+
                 }
             }
         }

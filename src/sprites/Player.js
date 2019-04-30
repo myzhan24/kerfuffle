@@ -15,9 +15,11 @@ export default class extends Phaser.GameObjects.Sprite {
         this.initKeyBinds(scene);
         this.sfx = {};
         this.sfx.jump = scene.sound.add('jump');
+        this.sfx.psi = scene.sound.add('psi');
     }
 
     initKeyBinds(scene) {
+        this.keyQ = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
         this.keySpace = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyLeft = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.keyRight = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -29,6 +31,10 @@ export default class extends Phaser.GameObjects.Sprite {
             // this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
             this.sfx.jump.play();
+        }
+
+        if (this.keyQ.isDown) {
+            this.sfx.psi.play();
         }
 
         if (this.keyLeft.isDown) {
