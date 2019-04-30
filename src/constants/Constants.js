@@ -7,10 +7,10 @@ export const Physics = {
 }
 
 export const Player = {
-    accel: 5, // Player base acceleration constant
+    accel: 6, // Player base acceleration constant
     frictionAccel: 1, // Player base deceleration constant
-    jumpSpeed: 15, // Speed applied when jumping
-    maxRunSpeed: 10 // Max speed from user input
+    jumpSpeed: 14, // Speed applied when jumping
+    maxRunSpeed: 8 // Max speed from user input
 }
 
 export const Platform = {
