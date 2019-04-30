@@ -15,13 +15,8 @@ export default class extends AbstractPlatform {
     }
 
     isBelow(sprite) {
-
         let lowest = sprite.y + sprite.displayHeight / 8; // 8 instead of 2 for more forgiving tolerance.
-        let isBelow = (lowest) < this.y;
-        // console.log('spriteA y', spriteA.y, 'spriteA height', spriteA.displayHeight, 'lowest', lowest , 'spriteB y',
-        // spriteB.y, 'isAbove:', isAbove);
-        return isBelow;
-
+        return lowest < this.y;
     }
 
     keepSpriteInBounds(sprite) {

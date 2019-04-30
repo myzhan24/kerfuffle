@@ -4,6 +4,7 @@ import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
 import Boundary from '../sprites/Boundary';
 import BottomPlatform from '../sprites/platforms/BottomPlatform';
+import BottomBoundary from '../sprites/platforms/BottomBoundary';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -53,10 +54,9 @@ export default class extends Phaser.Scene {
             direction: 1
         });
 
-        this.bottomBoundary = new Boundary({
+        this.bottomBoundary = new BottomBoundary({
             scene: this,
-            asset: 'platform',
-            direction: 2
+            asset: 'platform'
         });
 
         this.leftBoundary = new Boundary({
@@ -64,7 +64,6 @@ export default class extends Phaser.Scene {
             asset: 'platform',
             direction: 3
         });
-
 
         this.universe.add(this.add.existing(this.player));
         this.universe.add(this.add.existing(this.mushroom));
@@ -82,7 +81,6 @@ export default class extends Phaser.Scene {
             this.add.existing(this.leftBoundary),
             this.add.existing(this.test)
         ]);
-
 
 
     }
