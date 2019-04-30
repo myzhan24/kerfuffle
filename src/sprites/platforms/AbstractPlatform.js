@@ -1,9 +1,8 @@
 import Phaser from 'phaser';
-import { isPresent } from '../../utils';
+import { isPresent, overlaps } from '../../utils';
 
 export default class extends Phaser.GameObjects.Sprite {
     constructor({scene, x, y, w, h, asset}) {
-        // N E S W, 0 1 2 3
         super(scene, x, y, asset);
         if (isPresent(w)) {
             this.displayWidth = w;
@@ -16,7 +15,26 @@ export default class extends Phaser.GameObjects.Sprite {
         this.setOrigin(0, 0);
     }
 
+    /**
+     * Returns true if triggered
+     * @param sprite
+     * @returns {boolean}
+     */
     keepSpriteInBounds(sprite) {
         return false;
+    }
+
+    /**
+     * Whether this platform is considered below a center-origin sprite
+     * @param sprite
+     * @returns {boolean}
+     */
+    isBelow(sprite) {
+        let lowest = sprite.y + sprite.displayHeight / 8; // 8 instead of 2 for more forgiving tolerance.
+        return lowest < this.y;
+    }
+
+    shouldInfluence(sprite) {
+        return overlaps(this, sprite);
     }
 }

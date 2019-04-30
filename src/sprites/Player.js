@@ -114,6 +114,10 @@ export default class extends Phaser.GameObjects.Sprite {
         // console.log('player speed:', this.vectorX, this.inputAccelX, this.accelX);
     }
 
+    addInfluence(obj) {
+
+    }
+
     addIntersecting(platform) {
         if (!this.overlappingPlatforms.has(platform)) {
             this.overlappingPlatforms.add(platform);

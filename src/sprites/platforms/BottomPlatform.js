@@ -14,13 +14,12 @@ export default class extends AbstractPlatform {
         });
     }
 
-    isBelow(sprite) {
-        let lowest = sprite.y + sprite.displayHeight / 8; // 8 instead of 2 for more forgiving tolerance.
-        return lowest < this.y;
+    shouldInfluence(sprite) {
+        return overlaps(this, sprite) && this.isBelow(sprite);
     }
 
     keepSpriteInBounds(sprite) {
-        if (overlaps(this, sprite) && this.isBelow(sprite)) {
+        if (this.shouldInfluence(sprite)) {
             if (sprite.vectorY < 0) {
                 sprite.y = this.y - sprite.displayHeight / 2;
                 if (sprite.vectorY < 0 && !sprite.grounded) {
