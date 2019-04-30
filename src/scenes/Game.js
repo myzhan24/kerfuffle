@@ -7,6 +7,7 @@ import BottomBoundary from '../sprites/platforms/BottomBoundary';
 import RightBoundary from '../sprites/platforms/RightBoundary';
 import LeftBoundary from '../sprites/platforms/LeftBoundary';
 import TopBoundary from '../sprites/platforms/TopBoundary';
+import Water from '../sprites/skills/Water';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -24,7 +25,6 @@ export default class extends Phaser.Scene {
 
     }
 
-
     create() {
         this.universe = this.add.group();
         // this.universe.runChildUpdate = true;
@@ -37,11 +37,18 @@ export default class extends Phaser.Scene {
             asset: 'mushroom'
         });
 
+
         this.player = new Player({
             scene: this,
             x: 200,
             y: 300,
             asset: 'mushroom'
+        });
+
+        this.water = new Water({
+            scene: this,
+            asset: 'rain',
+            parent: this.player
         });
 
         this.topBoundary = new TopBoundary({
@@ -66,6 +73,7 @@ export default class extends Phaser.Scene {
 
         this.universe.add(this.add.existing(this.player));
         // this.universe.add(this.add.existing(this.mushroom));
+        this.universe.add(this.add.existing(this.water));
 
         this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
             font: '64px Bangers',
@@ -102,13 +110,11 @@ export default class extends Phaser.Scene {
     }
 
     update() {
-        // If a universe Object intersects with a platform, reset its y and vector y
         for (let child of this.universe.getChildren()) {
             child.update();
-            // child.grounded = false;
 
             for (let boundary of this.boundaries.getChildren()) {
-                if (boundary.shouldInfluence(child)) {
+                if (!child.ignoreInfluence() && boundary.shouldInfluence(child)) {
                     child.addInfluence(boundary);
                 }
             }

@@ -1,10 +1,11 @@
 import Phaser from 'phaser'
 import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
+import UniverseObject from './UniverseObject';
 
-export default class extends Phaser.GameObjects.Sprite {
+export default class extends UniverseObject {
     constructor({scene, x, y, asset}) {
-        super(scene, x, y, asset);
+        super({scene, x, y, asset});
         this.vectorX = 0;
         this.vectorY = 0;
         this.inputAccelX = 0;
@@ -59,7 +60,15 @@ export default class extends Phaser.GameObjects.Sprite {
         }
     }
 
+    ignoreInfluence() {
+        return false;
+    }
+
     updateVectorInfluences() {
+        if (this.ignoreInfluence()) {
+            return;
+        }
+
         if (this.influences.size > 0) {
             let nextSet = new Set();
 
@@ -78,6 +87,10 @@ export default class extends Phaser.GameObjects.Sprite {
     }
 
     updatePositionInfluences() {
+        if (this.ignoreInfluence()) {
+            return;
+        }
+
         if (this.influences.size > 0) {
             let nextSet = new Set();
 
@@ -94,6 +107,8 @@ export default class extends Phaser.GameObjects.Sprite {
     }
 
     update() {
+        this.lastX = this.x;
+        this.lastY = this.y;
         this.updateKeyBinds();
         this.grounded = false;
         this.updateVectorInfluences();
@@ -128,16 +143,6 @@ export default class extends Phaser.GameObjects.Sprite {
         if (!this.influences.has(obj)) {
             this.influences.add(obj);
         }
-    }
-
-    addIntersecting(platform) {
-        if (!this.overlappingPlatforms.has(platform)) {
-            this.overlappingPlatforms.add(platform);
-        }
-    }
-
-    decayVectorX() {
-
     }
 
     /**
