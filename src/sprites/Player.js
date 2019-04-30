@@ -135,7 +135,7 @@ export default class extends UniverseObject {
         this.vectorX += this.accelX;
         this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
-        this.y -= this.vectorY;
+        this.y += this.vectorY;
     }
 
     /**

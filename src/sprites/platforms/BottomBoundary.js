@@ -20,7 +20,7 @@ export default class extends BottomPlatform {
     }
 
     shouldInfluence(sprite) {
-        // return sprite.vectorY <= 0 && overlaps(this, sprite) && this.isBelow(sprite);
-        return sprite.vectorY <= 0 && overlaps(this, sprite);
+        // return sprite.vectorY >= 0 && overlaps(this, sprite) && this.isBelow(sprite);
+        return sprite.vectorY >= 0 && overlaps(this, sprite);
     }
 }

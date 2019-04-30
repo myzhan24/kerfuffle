@@ -1,5 +1,5 @@
 export const Physics = {
-    gravity: -0.8, // Y Acceleration downward
+    gravity: 0.8, // Y Acceleration downward
     airAccelMu: 0.5, // X Acceleration multiplier in the Air
     groundAccelMu: 1, // X Acceleration multiplier on the Ground
     airFrictionMu: 0.25, // X Deceleration multiplier in the Air
@@ -9,7 +9,7 @@ export const Physics = {
 export const Player = {
     accel: 6, // Player base acceleration constant
     frictionAccel: 1, // Player base deceleration constant
-    jumpSpeed: 14, // Speed applied when jumping
+    jumpSpeed: -14, // Speed applied when jumping
     maxRunSpeed: 8 // Max speed from user input
 }
 

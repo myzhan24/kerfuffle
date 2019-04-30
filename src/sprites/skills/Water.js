@@ -48,8 +48,12 @@ export default class extends UniverseObject {
         this.vectorY += this.accelY;
         this.x += this.vectorX;
         this.y += this.vectorY;
-        this.x += this.parent.x - this.parent.lastX;
-        this.y += this.parent.y - this.parent.lastY;
+        // this.x += this.parent.x - this.parent.lastX;
+        // this.y += this.parent.y - this.parent.lastY;
+
+        this.x += this.parent.vectorX;
+        this.y += this.parent.vectorY;
+
         // console.log('water dist angle vX vY', cLength, '\t', angle, '\t', this.vectorX, '\t', this.vectorY);
 
         if (this.vectorX < 0) {

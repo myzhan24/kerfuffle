@@ -17,11 +17,11 @@ export default class extends AbstractPlatform {
 
     // TODO player can phase through the ground if going too fast!
     shouldInfluence(sprite) {
-        return sprite.vectorY <= 0 && overlaps(this, sprite) && this.isBelow(sprite);
+        return sprite.vectorY >= 0 && overlaps(this, sprite) && this.isBelow(sprite);
     }
 
     influence(sprite) {
-        if (sprite.vectorY <= 0 && !sprite.grounded) {
+        if (sprite.vectorY >= 0 && !sprite.grounded) {
             sprite.vectorY = 0;
             // sprite.vectorY = 5;
             sprite.grounded = true;

@@ -19,7 +19,7 @@ export default class extends AbstractPlatform {
     }
 
     influence(sprite) {
-        sprite.vectorY -= Platform.accel;
+        sprite.vectorY += Platform.accel;
     }
 
     haltsMovement() {
