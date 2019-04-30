@@ -45,8 +45,6 @@ export default class extends Phaser.Scene {
             universe: this.universe
         });
 
-
-
         this.topBoundary = new TopBoundary({
             scene: this,
             asset: 'platform'
@@ -71,10 +69,10 @@ export default class extends Phaser.Scene {
         // this.universe.add(this.add.existing(this.mushroom));
         // this.universe.add(this.add.existing(this.water));
 
-        this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
-            font: '64px Bangers',
-            fill: '#7744ff'
-        });
+        // this.add.text(100, 100, 'Phaser 3 - ES6 - Webpack ', {
+        //     font: '64px Bangers',
+        //     fill: '#7744ff'
+        // });
 
         this.test = new BottomPlatform({scene: this, x: 200, y: 700, w: 100, h: 20, asset: 'platform'});
 
