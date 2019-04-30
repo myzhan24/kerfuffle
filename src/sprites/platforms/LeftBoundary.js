@@ -1,4 +1,5 @@
 import AbstractPlatform from './AbstractPlatform';
+import { Platform } from '../../constants/Constants';
 
 export default class extends AbstractPlatform {
     constructor({scene, asset}) {
@@ -18,7 +19,7 @@ export default class extends AbstractPlatform {
     }
 
     influence(sprite) {
-        sprite.vectorX += 3;
+        sprite.vectorX += Platform.accel;
     }
 
     haltsMovement() {

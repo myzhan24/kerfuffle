@@ -13,3 +13,7 @@ export const Player = {
     maxRunSpeed: 10 // Max speed from user input
 }
 
+export const Platform = {
+    accel: 3
+}
+

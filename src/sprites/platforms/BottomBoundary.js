@@ -1,4 +1,5 @@
 import BottomPlatform from './BottomPlatform';
+import { overlaps } from '../../utils';
 
 export default class extends BottomPlatform {
     constructor({scene, asset}) {
@@ -16,5 +17,10 @@ export default class extends BottomPlatform {
 
     init(scene) {
         this.y = scene.sys.game.config.height - this.displayHeight;
+    }
+
+    shouldInfluence(sprite) {
+        // return sprite.vectorY <= 0 && overlaps(this, sprite) && this.isBelow(sprite);
+        return sprite.vectorY <= 0 && overlaps(this, sprite);
     }
 }
