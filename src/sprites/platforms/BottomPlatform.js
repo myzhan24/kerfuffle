@@ -35,16 +35,4 @@ export default class extends AbstractPlatform {
         // return clamp(proposedY, 0, this.y - sprite.displayHeight / 2);
         return clamp(proposedY, 0, this.y - sprite.displayHeight / 2);
     }
-
-    keepSpriteInBounds(sprite) {
-        if (this.shouldInfluence(sprite)) {
-            if (sprite.vectorY < 0) {
-                sprite.y = this.y - sprite.displayHeight / 2;
-                if (sprite.vectorY < 0 && !sprite.grounded) {
-                    sprite.vectorY = 0;
-                    sprite.grounded = true;
-                }
-            }
-        }
-    }
 }

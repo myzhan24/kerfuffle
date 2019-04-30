@@ -16,15 +16,6 @@ export default class extends Phaser.GameObjects.Sprite {
     }
 
     /**
-     * Returns true if triggered
-     * @param sprite
-     * @returns {boolean}
-     */
-    keepSpriteInBounds(sprite) {
-        return false;
-    }
-
-    /**
      * Whether this platform is considered below a center-origin sprite
      * @param sprite
      * @returns {boolean}
