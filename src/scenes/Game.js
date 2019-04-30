@@ -4,6 +4,8 @@ import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
 import Boundary from '../sprites/Boundary';
 import Platform from '../sprites/Platform';
+import TestPlatform from '../sprites/TestPlatform';
+import { isAbove, overlaps } from '../utils';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -66,7 +68,6 @@ export default class extends Phaser.Scene {
         });
 
 
-
         this.universe.add(this.add.existing(this.player));
         this.universe.add(this.add.existing(this.mushroom));
 
@@ -76,11 +77,6 @@ export default class extends Phaser.Scene {
         });
 
 
-        this.platformA = new Platform({scene: this, x: 400, y: 500, w: 100, h: 5, asset: 'platform', direction: 2});
-        this.platformA2 = new Platform({scene: this, x: 400, y: 505, w: 100, h: 5, asset: 'platform', direction: 0});
-
-        this.platformB = new Platform({scene: this, x: 200, y: 700, w: 100, h: 5, asset: 'platform', direction: 2});
-
         this.platformEN = new Platform({scene: this, x: 400, y: 700, w: 100, h: 1, asset: 'platform', direction: 2});
         this.platformES = new Platform({scene: this, x: 400, y: 720, w: 100, h: 1, asset: 'platform', direction: 0});
 
@@ -88,25 +84,20 @@ export default class extends Phaser.Scene {
 
         this.platformEW = new Platform({scene: this, x: 390, y: 710, w: 1, h: 1, asset: 'platform', direction: 1});
 
-        this.platformC = new Platform({scene: this, x: 600, y: 300, w: 100, h: 5, asset: 'platform', direction: 2});
-
-        this.platformD = new Platform({scene: this, x: 800, y: 200, w: 100, h: 5, asset: 'platform', direction: 2});
 
         this.boundaries.addMultiple([
             this.add.existing(this.topBoundary),
             this.add.existing(this.rightBoundary),
             this.add.existing(this.bottomBoundary),
             this.add.existing(this.leftBoundary),
-            // this.add.existing(this.platformA),
-            // this.add.existing(this.platformA2),
             this.add.existing(this.platformES),
             this.add.existing(this.platformEN),
             this.add.existing(this.platformEE),
-            this.add.existing(this.platformEW),
-            this.add.existing(this.platformB),
-            this.add.existing(this.platformC),
-            this.add.existing(this.platformD)
+            this.add.existing(this.platformEW)
         ]);
+
+        this.test = new TestPlatform({scene: this, x: 200, y: 750, w: 100, h: 20, asset: 'platform'});
+        this.add.existing(this.test);
     }
 
     update() {
@@ -120,5 +111,21 @@ export default class extends Phaser.Scene {
                 }
             }
         }
+
+        for (let child of this.universe.getChildren()) {
+            if (overlaps(this.test, child) && isAbove(child, this.test)) {
+                console.log('child overlaps test!');
+
+                if (child.vectorY < 0) {
+                    child.y = this.test.y - child.displayHeight / 2;
+                    if (child.vectorY < 0 && !child.grounded) {
+                        child.vectorY = 0;
+                        child.grounded = true;
+                    }
+                }
+            }
+        }
     }
+
+
 }

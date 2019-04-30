@@ -13,3 +13,10 @@ export function overlaps(spriteA, spriteB) {
 export function isPresent(obj) {
     return obj !== null && obj !== undefined;
 }
+
+export function isAbove(spriteA, spriteB) {
+    let lowest = spriteA.y + spriteA.displayHeight / 8;
+    let isAbove = (lowest) < spriteB.y;
+    // console.log('spriteA y', spriteA.y, 'spriteA height', spriteA.displayHeight, 'lowest', lowest , 'spriteB y', spriteB.y, 'isAbove:', isAbove);
+    return isAbove;
+}
