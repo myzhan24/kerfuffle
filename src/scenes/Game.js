@@ -2,10 +2,11 @@
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom';
 import Player from '../sprites/Player';
-import Boundary from '../sprites/Boundary';
 import BottomPlatform from '../sprites/platforms/BottomPlatform';
 import BottomBoundary from '../sprites/platforms/BottomBoundary';
 import RightBoundary from '../sprites/platforms/RightBoundary';
+import LeftBoundary from '../sprites/platforms/LeftBoundary';
+import TopBoundary from '../sprites/platforms/TopBoundary';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -43,10 +44,9 @@ export default class extends Phaser.Scene {
             asset: 'mushroom'
         });
 
-        this.topBoundary = new Boundary({
+        this.topBoundary = new TopBoundary({
             scene: this,
-            asset: 'platform',
-            direction: 0
+            asset: 'platform'
         });
 
         this.rightBoundary = new RightBoundary({
@@ -59,10 +59,9 @@ export default class extends Phaser.Scene {
             asset: 'platform'
         });
 
-        this.leftBoundary = new Boundary({
+        this.leftBoundary = new LeftBoundary({
             scene: this,
-            asset: 'platform',
-            direction: 3
+            asset: 'platform'
         });
 
         this.universe.add(this.add.existing(this.player));
@@ -75,10 +74,10 @@ export default class extends Phaser.Scene {
 
         this.test = new BottomPlatform({scene: this, x: 200, y: 750, w: 100, h: 20, asset: 'platform'});
         this.boundaries.addMultiple([
-            // this.add.existing(this.topBoundary),
             this.add.existing(this.rightBoundary),
+            this.add.existing(this.leftBoundary),
+            this.add.existing(this.topBoundary),
             this.add.existing(this.bottomBoundary),
-            // this.add.existing(this.leftBoundary),
             this.add.existing(this.test)
         ]);
 
