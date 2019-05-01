@@ -6,7 +6,7 @@ export default class extends UniverseObject {
         super({scene, x: parent.x, y: parent.y, asset});
         this.parent = parent;
         this.parentMass = 500;
-        this.radius = Math.random() * 50 + this.parent.displayHeight / 3;
+        this.radius = Math.random() * 100 + this.parent.displayHeight / 3;
         this.putAroundParent();
     }
 

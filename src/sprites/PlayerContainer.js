@@ -30,14 +30,9 @@ export default class extends Phaser.GameObjects.Container {
         );
         // this.player.active = true;
 
-        this.water = new Water({
-            scene: scene,
-            asset: 'rain',
-            parent: this.player
-        });
 
         this.add(this.player);
-        this.add(this.water);
+
     }
 
     initKeyBinds(scene) {
@@ -58,12 +53,11 @@ export default class extends Phaser.GameObjects.Container {
 
         // if (this.keyQ.isDown && !isPresent(this.water)) {
         if (this.keyQ.isDown) {
-            this.water = new Water({
+            this.add(new Water({
                 scene: this.scene,
                 asset: 'rain',
                 parent: this.player
-            });
-            this.add(this.water);
+            }));
             // if (!this.sfx.psi.isPlaying) {
             //     this.sfx.psi.play();
             // }

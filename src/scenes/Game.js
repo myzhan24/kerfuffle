@@ -66,8 +66,7 @@ export default class extends Phaser.Scene {
         //     fill: '#7744ff'
         // });
 
-        this.playerContainer = new PlayerContainer({scene: this, x: 200, y: 300});
-        this.add.existing(this.playerContainer);
+
 
         this.test = new BottomPlatform({scene: this, x: 200, y: 700, w: 100, h: 20, asset: 'platform'});
 
@@ -91,9 +90,11 @@ export default class extends Phaser.Scene {
             this.add.existing(this.c),
             this.add.existing(this.d),
             this.add.existing(this.e),
-            this.add.existing(this.f),
-
+            this.add.existing(this.f)
         ]);
+
+        this.playerContainer = new PlayerContainer({scene: this, x: 200, y: 300});
+        this.add.existing(this.playerContainer);
     }
 
     update() {
