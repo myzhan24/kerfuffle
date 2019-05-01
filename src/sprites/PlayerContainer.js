@@ -48,7 +48,11 @@ export default class extends Phaser.GameObjects.Container {
             // TODO is changing grounded here right?
             // this.grounded = false;
             this.adjustVectorY(Player.jumpSpeed);
-            this.sfx.jump.play();
+            try {
+                this.sfx.jump.play();
+            } catch (e) {
+
+            }
         }
 
         // if (this.keyQ.isDown && !isPresent(this.water)) {
