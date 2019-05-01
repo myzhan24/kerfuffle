@@ -21,7 +21,13 @@ export default class extends Phaser.GameObjects.Sprite {
      * @returns {boolean}
      */
     isBelow(sprite) {
-        let lowest = sprite.y + sprite.displayHeight / 8; // 8 instead of 2 for more forgiving tolerance.
+        let lowest = 0;
+        try {
+            lowest = sprite.y + sprite.getHeight() / 8; // 8 instead of 2 for more forgiving tolerance.
+        } catch (e) {
+            lowest = sprite.y + sprite.displayHeight / 8;
+        }
+
         return lowest < this.y;
     }
 

@@ -33,6 +33,6 @@ export default class extends AbstractPlatform {
 
     influenceY(sprite, proposedY) {
         // return clamp(proposedY, 0, this.y - sprite.displayHeight / 2);
-        return clamp(proposedY, 0, this.y - sprite.displayHeight / 2);
+        return clamp(proposedY, 0, this.y - sprite.getHeight() / 2);
     }
 }

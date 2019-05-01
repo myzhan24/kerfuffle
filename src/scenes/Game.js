@@ -1,12 +1,12 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Mushroom from '../sprites/Mushroom';
-import Player from '../sprites/Player';
 import BottomPlatform from '../sprites/platforms/BottomPlatform';
 import BottomBoundary from '../sprites/platforms/BottomBoundary';
 import RightBoundary from '../sprites/platforms/RightBoundary';
 import LeftBoundary from '../sprites/platforms/LeftBoundary';
 import TopBoundary from '../sprites/platforms/TopBoundary';
+import PlayerContainer from '../sprites/PlayerContainer';
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -37,14 +37,6 @@ export default class extends Phaser.Scene {
         });
 
 
-        this.player = new Player({
-            scene: this,
-            x: 200,
-            y: 300,
-            asset: 'mushroom',
-            universe: this.universe
-        });
-
         this.topBoundary = new TopBoundary({
             scene: this,
             asset: 'platform'
@@ -65,7 +57,7 @@ export default class extends Phaser.Scene {
             asset: 'platform'
         });
 
-        this.universe.add(this.add.existing(this.player));
+        // this.universe.add(this.add.existing(this.player));
         // this.universe.add(this.add.existing(this.mushroom));
         // this.universe.add(this.add.existing(this.water));
 
@@ -73,6 +65,9 @@ export default class extends Phaser.Scene {
         //     font: '64px Bangers',
         //     fill: '#7744ff'
         // });
+
+        this.playerContainer = new PlayerContainer({scene: this, x: 200, y: 300});
+        this.add.existing(this.playerContainer);
 
         this.test = new BottomPlatform({scene: this, x: 200, y: 700, w: 100, h: 20, asset: 'platform'});
 
@@ -99,22 +94,29 @@ export default class extends Phaser.Scene {
             this.add.existing(this.f),
 
         ]);
-
-
     }
 
     update() {
-        for (let child of this.universe.getChildren()) {
-            child.update();
+        this.playerContainer.update();
 
-            for (let boundary of this.boundaries.getChildren()) {
-                if (!child.ignoreInfluence() && boundary.shouldInfluence(child)) {
-                    child.addInfluence(boundary);
-                }
+        for (let boundary of this.boundaries.getChildren()) {
+            if (!this.playerContainer.ignoreInfluence() && boundary.shouldInfluence(this.playerContainer)) {
+                this.playerContainer.addInfluence(boundary);
             }
-
-            child.updatePositionInfluences();
         }
-    }
 
+        this.playerContainer.updatePositionInfluences();
+
+        // for (let child of this.universe.getChildren()) {
+        //     child.update();
+        //
+        //     for (let boundary of this.boundaries.getChildren()) {
+        //         if (!child.ignoreInfluence() && boundary.shouldInfluence(child)) {
+        //             child.addInfluence(boundary);
+        //         }
+        //     }
+        //
+        //     child.updatePositionInfluences();
+        // }
+    }
 }

@@ -6,11 +6,12 @@ export default class extends UniverseObject {
         super({scene, x: parent.x, y: parent.y, asset});
         this.parent = parent;
         this.parentMass = 500;
+        this.radius = Math.random() * 50 + this.parent.displayHeight / 3;
         this.putAroundParent();
     }
 
     putAroundParent() {
-        const radius = Math.random() * 50 + this.parent.displayHeight / 3;
+        const radius = this.radius;
         const angle = Math.random() * 2 * Math.PI;
         const sideX = Math.cos(angle) * radius;
         const sideY = Math.sin(angle) * radius;
@@ -48,8 +49,8 @@ export default class extends UniverseObject {
         this.vectorY += this.accelY;
         this.x += this.vectorX;
         this.y += this.vectorY;
-        this.x += this.parent.x - this.parent.lastX;
-        this.y += this.parent.y - this.parent.lastY;
+        // this.x += this.parent.vectorX;
+        // this.y += this.parent.vectorY;
 
         // this.x += this.parent.vectorX;
         // this.y += this.parent.vectorY;
@@ -61,5 +62,7 @@ export default class extends UniverseObject {
         } else {
             this.rotation = -1.5708 + Math.atan(this.vectorY / this.vectorX);
         }
+
+        // console.log('water dist', cLength);
     }
 }

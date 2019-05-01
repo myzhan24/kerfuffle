@@ -1,23 +1,43 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
+import Water from './skills/Water';
 import { Physics, Player } from '../constants/Constants';
 import { clamp } from '../config';
-import UniverseObject from './UniverseObject';
-import Water from './skills/Water';
-import { isPresent } from '../utils';
 
-export default class extends UniverseObject {
-    constructor({scene, x, y, asset, universe}) {
-        super({scene, x, y, asset, universe});
+export default class extends Phaser.GameObjects.Container {
+    constructor({scene, x, y}) {
+        super(scene, x, y);
+        this.vectorX = 0;
+        this.vectorY = 0;
+        this.accelX = 0;
+        this.accelY = 0;
+        this.lastX = x;
+        this.lastY = y;
         this.inputAccelX = 0;
         this.grounded = false;
-        this.pushRight = false;
-        // this.initKeyBinds(scene);
+
+        this.initKeyBinds(scene);
         this.sfx = {};
         this.sfx.jump = scene.sound.add('jump');
         this.sfx.psi = scene.sound.add('psi');
 
-        this.overlappingPlatforms = new Set();
         this.influences = new Set();
+
+        this.player = new Phaser.GameObjects.Sprite(
+            scene,
+            0,
+            0,
+            'mushroom'
+        );
+        // this.player.active = true;
+
+        this.water = new Water({
+            scene: scene,
+            asset: 'rain',
+            parent: this.player
+        });
+
+        this.add(this.player);
+        this.add(this.water);
     }
 
     initKeyBinds(scene) {
@@ -36,13 +56,14 @@ export default class extends UniverseObject {
             this.sfx.jump.play();
         }
 
-        if (this.keyQ.isDown && !isPresent(this.water)) {
+        // if (this.keyQ.isDown && !isPresent(this.water)) {
+        if (this.keyQ.isDown) {
             this.water = new Water({
                 scene: this.scene,
                 asset: 'rain',
-                parent: this
+                parent: this.player
             });
-            this.universe.add(this.scene.add.existing(this.water));
+            this.add(this.water);
             // if (!this.sfx.psi.isPlaying) {
             //     this.sfx.psi.play();
             // }
@@ -113,9 +134,19 @@ export default class extends UniverseObject {
     }
 
     update() {
+        this.updatePlayer();
+        // this.water.update();
+        for (let child of this.list) {
+            child.update();
+        }
+    }
+
+    updatePlayer() {
+        // console.log('pc x y', this.x, this.y, this.width, this.height, this.vectorX, this.vectorY, this.accelX,
+        // this.accelY);
         this.lastX = this.x;
         this.lastY = this.y;
-        // this.updateKeyBinds();
+        this.updateKeyBinds();
         this.grounded = false;
         this.updateVectorInfluences();
 
@@ -132,12 +163,7 @@ export default class extends UniverseObject {
         }
 
         this.vectorX += this.accelX;
-        if (this.grounded) {
-            this.vectorY = 0;
-        } else {
-            this.vectorY += this.accelY + Physics.gravity;
-        }
-
+        this.vectorY += this.accelY + Physics.gravity;
         this.x += this.vectorX;
         this.y += this.vectorY;
     }
@@ -194,5 +220,13 @@ export default class extends UniverseObject {
 
     setAccelY(vector) {
         this.accelY = vector;
+    }
+
+    getBounds() {
+        return this.player.getBounds();
+    }
+
+    getHeight() {
+        return this.player.displayHeight;
     }
 }
