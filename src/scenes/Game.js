@@ -32,10 +32,8 @@ export default class extends Phaser.Scene {
         this.mushroom = new Mushroom({
             scene: this,
             x: 400,
-            y: 300,
-            asset: 'mushroom'
+            y: 300
         });
-
 
         this.topBoundary = new TopBoundary({
             scene: this,
@@ -79,7 +77,8 @@ export default class extends Phaser.Scene {
         this.e = new BottomPlatform({scene: this, x: 200, y: 300, w: 100, h: 20, asset: 'platform'});
 
         this.f = new BottomPlatform({scene: this, x: 200, y: 200, w: 100, h: 20, asset: 'platform'});
-
+        this.playerContainer = new PlayerContainer({scene: this, x: 200, y: 300});
+        this.add.existing(this.playerContainer);
         this.boundaries.addMultiple([
             this.add.existing(this.rightBoundary),
             this.add.existing(this.leftBoundary),
@@ -93,8 +92,7 @@ export default class extends Phaser.Scene {
             this.add.existing(this.f)
         ]);
 
-        this.playerContainer = new PlayerContainer({scene: this, x: 200, y: 300});
-        this.add.existing(this.playerContainer);
+
     }
 
     update() {

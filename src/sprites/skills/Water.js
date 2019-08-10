@@ -1,12 +1,14 @@
 import UniverseObject from '../UniverseObject';
-import { dist } from '../../utils';
+import {dist} from '../../utils';
+import {images} from '../../../assets';
 
 export default class extends UniverseObject {
-    constructor({scene, parent, asset}) {
+    constructor({scene, parent, parentContainer, asset = images.subi}) {
         super({scene, x: parent.x, y: parent.y, asset});
+        this.mzparentContainer = parentContainer;
         this.parent = parent;
-        this.parentMass = 500;
-        this.radius = Math.random() * 100 + this.parent.displayHeight / 3;
+        this.parentMass = 10000;
+        this.radius = Math.random() * 100 + this.parent.displayHeight / 2 + 10;
         this.putAroundParent();
     }
 
@@ -49,8 +51,16 @@ export default class extends UniverseObject {
         this.vectorY += this.accelY;
         this.x += this.vectorX;
         this.y += this.vectorY;
-        // this.x += this.parent.vectorX;
-        // this.y += this.parent.vectorY;
+
+        // if (cLength > 500) {
+
+
+        // let test = 1 / (1 + (1 / (cLength)));
+        // this.x -= (this.mzparentContainer.x - this.mzparentContainer.lastX) * test;
+        // this.y -= (this.mzparentContainer.y - this.mzparentContainer.lastY) * test;
+        // console.log('c l', this.x, this.y);
+        // }
+
 
         // this.x += this.parent.vectorX;
         // this.y += this.parent.vectorY;
