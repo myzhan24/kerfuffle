@@ -91,8 +91,6 @@ export default class extends Phaser.Scene {
             this.add.existing(this.e),
             this.add.existing(this.f)
         ]);
-
-
     }
 
     update() {

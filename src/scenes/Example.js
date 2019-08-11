@@ -5,48 +5,6 @@ export default class extends Phaser.Scene {
         super({key: 'ExampleScene'})
     }
 
-    // var
-    // config = {
-    //     type: Phaser.AUTO,
-    //     width: 800,
-    //     height: 600,
-    //     physics: {
-    //         default: 'arcade',
-    //         arcade: {
-    //             gravity: {y: 300},
-    //             debug: false
-    //         }
-    //     },
-    //     scene: {
-    //         preload: preload,
-    //         create: create,
-    //         update: update
-    //     }
-    // };
-/*
-
-    var
-    stars;
-    var
-    player;
-    var
-    bombs;
-    var
-    platforms;
-    var
-    cursors;
-    var
-    score = 0;
-    var
-    gameOver = false;
-    var
-    scoreText;
-*/
-    // var
-    // game = new Phaser.Game(this.config);
-
-
-
     preload() {
         this.score = 0;
         this.gameOver = false;
@@ -78,7 +36,7 @@ export default class extends Phaser.Scene {
         this.player = this.physics.add.sprite(100, 450, 'dude');
 
         //  Player physics properties. Give the little guy a slight bounce.
-        this.player.setBounce(0.2);
+        this.player.setBounce(0.1);
         this.player.setCollideWorldBounds(true);
 
         //  Our player animations, turning, walking left and walking right.
@@ -133,7 +91,6 @@ export default class extends Phaser.Scene {
         this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
     }
 
-
     update() {
         if (this.gameOver) {
             return;
@@ -154,7 +111,7 @@ export default class extends Phaser.Scene {
         }
 
         if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-330);
+            this.player.setVelocityY(-1000);
         }
     }
 
@@ -168,9 +125,7 @@ export default class extends Phaser.Scene {
         if (this.stars.countActive(true) === 0) {
             //  A new batch of this.stars to collect
             this.stars.children.iterate(function (child) {
-
                 child.enableBody(true, child.x, 0, true, true);
-
             });
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
