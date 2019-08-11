@@ -1,7 +1,11 @@
-export default class {
-    constructor({scene, anims, asset}) {
+import UniverseMember from './UniverseMember';
+
+export default class extends UniverseMember {
+    constructor({scene, anims, cursors, asset}) {
+        super();
         this.scene = scene;
         this.asset = asset;
+        this.cursors = cursors;
         this.anims = anims;
 
         this.create();
@@ -43,5 +47,25 @@ export default class {
 
     getSprite() {
         return this.sprite;
+    }
+
+    update() {
+        if (this.cursors.left.isDown) {
+            this.sprite.setVelocityX(-160);
+
+            this.sprite.anims.play('left', true);
+        } else if (this.cursors.right.isDown) {
+            this.sprite.setVelocityX(160);
+
+            this.sprite.anims.play('right', true);
+        } else {
+            this.sprite.setVelocityX(0);
+
+            this.sprite.anims.play('turn');
+        }
+
+        if (this.cursors.up.isDown && this.sprite.body.touching.down) {
+            this.sprite.setVelocityY(-1000);
+        }
     }
 }

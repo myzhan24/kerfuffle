@@ -19,14 +19,17 @@ export default class extends Phaser.Scene {
     }
 
     addToUniverse(universeMember) {
-        if (!this.universe) {
-            this.universe = [];
-        }
+        this.universeMembers.push(universeMember);
+    }
 
-        this.universe.push(universeMember);
+    updateUniverse() {
+        this.universeMembers.forEach((universeMember)=>{
+            universeMember.update();
+        });
     }
 
     create() {
+        this.universeMembers = [];
         //  A simple background for our game
         this.add.image(400, 300, images.sky);
 
@@ -42,13 +45,14 @@ export default class extends Phaser.Scene {
         this.platforms.create(50, 250, images.ground);
         this.platforms.create(750, 220, images.ground);
 
-        // // The player and its settings
-        // this.player = this.physics.add.sprite(100, 450, images.dude);
-        var test = new Dude({scene: this, anims: this.anims, asset: images.dude});
-        this.player = test.getSprite();
-
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
+        // The player and its settings
+        // this.player = this.physics.add.sprite(100, 450, images.dude);
+        var test = new Dude({scene: this, anims: this.anims, cursors: this.cursors, asset: images.dude});
+        this.addToUniverse(test);
+        this.player = test.getSprite();
+
 
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         this.stars = this.physics.add.group({
@@ -83,23 +87,7 @@ export default class extends Phaser.Scene {
             return;
         }
 
-        if (this.cursors.left.isDown) {
-            this.player.setVelocityX(-160);
-
-            this.player.anims.play('left', true);
-        } else if (this.cursors.right.isDown) {
-            this.player.setVelocityX(160);
-
-            this.player.anims.play('right', true);
-        } else {
-            this.player.setVelocityX(0);
-
-            this.player.anims.play('turn');
-        }
-
-        if (this.cursors.up.isDown && this.player.body.touching.down) {
-            this.player.setVelocityY(-1000);
-        }
+        this.updateUniverse();
     }
 
     collectStar(player, star) {
@@ -134,4 +122,4 @@ export default class extends Phaser.Scene {
 
         this.gameOver = true;
     }
-}
+};
