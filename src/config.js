@@ -5,6 +5,14 @@ export default {
     parent: 'content',
     width: 1600,
     height: 900,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: {
+                y: 200
+            }
+        }
+    },
     localStorageName: 'phaseres6webpack'
 }
 
