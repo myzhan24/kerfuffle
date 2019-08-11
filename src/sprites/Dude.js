@@ -121,7 +121,7 @@ export default class extends UniverseMember {
 
     update() {
         this.updatePlayer();
-        console.log('vX', this.getVectorX(), 'vY', this.getVectorY());
+        this.log();
     }
 
     /**
@@ -174,5 +174,17 @@ export default class extends UniverseMember {
 
     getSprite() {
         return this.sprite;
+    }
+
+    getX() {
+        return this.getSprite().body.x;
+    }
+
+    getY() {
+        return this.getSprite().body.y;
+    }
+
+    log() {
+        console.log('x', this.getX(), 'y', this.getY(), 'vX', this.getVectorX(), 'vY', this.getVectorY());
     }
 }
