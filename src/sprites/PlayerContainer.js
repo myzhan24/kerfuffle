@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 import Water from './skills/Water';
-import { Physics, Player } from '../constants/Constants';
-import { clamp } from '../config';
+import {Physics, Player} from '../constants/Constants';
+import {clamp} from '../config';
+import {images} from "../../assets";
 
 export default class extends Phaser.GameObjects.Container {
     constructor({scene, x, y}) {
@@ -26,7 +27,7 @@ export default class extends Phaser.GameObjects.Container {
             scene,
             0,
             0,
-            'mushroom'
+            images.thiefBoyIdle
         );
         // this.player.active = true;
 
@@ -47,6 +48,7 @@ export default class extends Phaser.GameObjects.Container {
         if (this.keySpace.isDown && this.grounded) {
             // TODO is changing grounded here right?
             // this.grounded = false;
+
             this.adjustVectorY(Player.jumpSpeed);
             try {
                 this.sfx.jump.play();
@@ -59,12 +61,12 @@ export default class extends Phaser.GameObjects.Container {
         if (this.keyQ.isDown) {
             this.add(new Water({
                 scene: this.scene,
-                asset: 'rain',
-                parent: this.player
+                parent: this.player,
+                parentContainer: this
             }));
-            // if (!this.sfx.psi.isPlaying) {
-            //     this.sfx.psi.play();
-            // }
+            if (!this.sfx.psi.isPlaying) {
+                this.sfx.psi.play();
+            }
         }
 
         if (this.keyLeft.isDown) {

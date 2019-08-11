@@ -1,9 +1,8 @@
 import Phaser from 'phaser'
-import { Physics, Player } from '../constants/Constants';
-import { clamp } from '../config';
+import {Physics, Player} from '../constants/Constants';
+import {clamp} from '../config';
 import UniverseObject from './UniverseObject';
-import Water from './skills/Water';
-import { isPresent } from '../utils';
+import {isPresent} from '../utils';
 
 export default class extends UniverseObject {
     constructor({scene, x, y, asset, universe}) {
@@ -37,12 +36,12 @@ export default class extends UniverseObject {
         }
 
         if (this.keyQ.isDown && !isPresent(this.water)) {
-            this.water = new Water({
-                scene: this.scene,
-                asset: 'rain',
-                parent: this
-            });
-            this.universe.add(this.scene.add.existing(this.water));
+            // this.water = new Water({
+            //     scene: this.scene,
+            //     asset: 'rain',
+            //     parent: this
+            // });
+            // this.universe.add(this.scene.add.existing(this.water));
             // if (!this.sfx.psi.isPlaying) {
             //     this.sfx.psi.play();
             // }
