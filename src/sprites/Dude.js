@@ -134,28 +134,6 @@ export default class extends UniverseMember {
         console.log('vX', this.getVectorX(), 'vY', this.getVectorY());
     }
 
-    updateOldKeyBinds() {
-        if (this.cursors.left.isDown) {
-            this.getSprite().setVelocityX(-160);
-            console.log(this.getSprite().body.velocity.x);
-
-            this.getSprite().anims.play('left', true);
-        } else if (this.cursors.right.isDown) {
-            this.getSprite().setVelocityX(160);
-
-            this.getSprite().anims.play('right', true);
-        } else {
-            this.getSprite().setVelocityX(0);
-
-            this.getSprite().anims.play('turn');
-        }
-
-        if (this.cursors.up.isDown && this.isGrounded()) {
-            this.getSprite().setVelocityY(-1000);
-        }
-
-    }
-
     /**
      * returns an acceleration of friction in the opposite magnitude this player is translating.
      * @returns {number}
