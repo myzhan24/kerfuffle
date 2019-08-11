@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import {images} from '../../assets'
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -9,31 +10,31 @@ export default class extends Phaser.Scene {
         this.score = 0;
         this.gameOver = false;
 
-        this.load.image('sky', 'assets/sky.png');
-        this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
-        this.load.image('bomb', 'assets/bomb.png');
-        this.load.spritesheet('dude', 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
+        this.load.image(images.sky, 'assets/sky.png');
+        this.load.image(images.ground, 'assets/platform.png');
+        this.load.image(images.star, 'assets/star.png');
+        this.load.image(images.bomb, 'assets/bomb.png');
+        this.load.spritesheet(images.dude, 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
     }
 
     create() {
         //  A simple background for our game
-        this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, images.sky);
 
         //  The platforms group contains the ground and the 2 ledges we can jump on
         this.platforms = this.physics.add.staticGroup();
 
         //  Here we create the ground.
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        this.platforms.create(400, 568, images.ground).setScale(2).refreshBody();
 
         //  Now let's create some ledges
-        this.platforms.create(600, 400, 'ground');
-        this.platforms.create(50, 250, 'ground');
-        this.platforms.create(750, 220, 'ground');
+        this.platforms.create(600, 400, images.ground);
+        this.platforms.create(50, 250, images.ground);
+        this.platforms.create(750, 220, images.ground);
 
         // The player and its settings
-        this.player = this.physics.add.sprite(100, 450, 'dude');
+        this.player = this.physics.add.sprite(100, 450, images.dude);
 
         //  Player physics properties. Give the little guy a slight bounce.
         this.player.setBounce(0.1);
@@ -42,20 +43,20 @@ export default class extends Phaser.Scene {
         //  Our player animations, turning, walking left and walking right.
         this.anims.create({
             key: 'left',
-            frames: this.anims.generateFrameNumbers('dude', {start: 0, end: 3}),
+            frames: this.anims.generateFrameNumbers(images.dude, {start: 0, end: 3}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'turn',
-            frames: [{key: 'dude', frame: 4}],
+            frames: [{key: images.dude, frame: 4}],
             frameRate: 20
         });
 
         this.anims.create({
             key: 'right',
-            frames: this.anims.generateFrameNumbers('dude', {start: 5, end: 8}),
+            frames: this.anims.generateFrameNumbers(images.dude, {start: 5, end: 8}),
             frameRate: 10,
             repeat: -1
         });
@@ -65,7 +66,7 @@ export default class extends Phaser.Scene {
 
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         this.stars = this.physics.add.group({
-            key: 'star',
+            key: images.star,
             repeat: 11,
             setXY: {x: 12, y: 0, stepX: 70}
         });
@@ -130,7 +131,7 @@ export default class extends Phaser.Scene {
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-            var bomb = this.bombs.create(x, 16, 'bomb');
+            var bomb = this.bombs.create(x, 16, images.bomb);
             bomb.setBounce(1);
             bomb.setCollideWorldBounds(true);
             bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
