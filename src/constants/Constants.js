@@ -13,6 +13,13 @@ export const Player = {
     maxRunSpeed: 8 // Max speed from user input
 }
 
+export const DudeConstants = {
+    accel: 240, // Player base acceleration constant
+    frictionAccel: 40, // Player base deceleration constant
+    jumpSpeed: -560, // Speed applied when jumping
+    maxRunSpeed: 320 // Max speed from user input
+}
+
 export const Platform = {
     accel: 3
 }

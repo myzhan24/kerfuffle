@@ -1,4 +1,6 @@
 import UniverseMember from './UniverseMember';
+import {DudeConstants, Physics} from '../constants/Constants';
+import {clamp} from '../config';
 
 export default class extends UniverseMember {
     constructor({scene, anims, cursors, asset}) {
@@ -7,6 +9,8 @@ export default class extends UniverseMember {
         this.asset = asset;
         this.cursors = cursors;
         this.anims = anims;
+
+        this.inputAccelX = 0;
 
         this.create();
     }
@@ -18,6 +22,7 @@ export default class extends UniverseMember {
         this.sprite.setCollideWorldBounds(true);
 
         this.createAnimations();
+        this.createSfx();
     }
 
     /**
@@ -45,27 +50,158 @@ export default class extends UniverseMember {
         });
     }
 
-    getSprite() {
-        return this.sprite;
+    createSfx() {
+        this.sfx = {};
+        this.sfx.jump = this.scene.sound.add('jump');
+        this.sfx.psi = this.scene.sound.add('psi');
+    }
+
+    updatePlayer() {
+        // console.log('pc x y', this.x, this.y, this.width, this.height, this.vectorX, this.vectorY, this.accelX,
+        // this.accelY);
+        // this.lastX = this.x;
+        // this.lastY = this.y;
+        this.updateKeyBinds();
+        // this.grounded = false;
+        // this.updateVectorInfluences();
+
+        if (this.inputAccelX > 0) {
+            if (this.getVectorX() < DudeConstants.maxRunSpeed) {
+                this.adjustVectorX(this.inputAccelX);
+                this.setVectorX(clamp(this.getVectorX(), -DudeConstants.maxRunSpeed, DudeConstants.maxRunSpeed));
+            }
+        } else if (this.inputAccelX < 0) {
+            if (this.getVectorX() > -DudeConstants.maxRunSpeed) {
+                this.adjustVectorX(this.inputAccelX);
+                this.setVectorX(clamp(this.getVectorX(), -DudeConstants.maxRunSpeed, DudeConstants.maxRunSpeed));
+            }
+        }
+
+        // this.vectorX += this.accelX;
+        // this.vectorY += this.accelY + Physics.gravity;
+        // this.x += this.vectorX;
+        // this.y += this.vectorY;
+    }
+
+    updateKeyBinds() {
+        if (this.cursors.space.isDown && this.isGrounded()) {
+            // TODO is changing grounded here right?
+            // this.isGrounded() = false;
+
+            this.adjustVectorY(DudeConstants.jumpSpeed);
+            try {
+                this.sfx.jump.play();
+            } catch (e) {
+
+            }
+        }
+
+        // if (this.keyQ.isDown && !isPresent(this.water)) {
+        if (this.cursors.shift.isDown) {
+            // this.add(new Water({
+            //     scene: this.scene,
+            //     parent: this.player,
+            //     parentContainer: this
+            // }));
+            // if (!this.sfx.psi.isPlaying) {
+            //     this.sfx.psi.play();
+            // }
+        }
+
+        if (this.cursors.left.isDown) {
+            // Left Pressed
+            this.inputAccelX = -this.getAccelMu() * DudeConstants.accel;
+        } else if (this.cursors.right.isDown) {
+            // Right Pressed
+            this.inputAccelX = this.getAccelMu() * DudeConstants.accel;
+        } else {
+            // Neither Left or Right is being pressed.
+            // Stop moving when reaching a low enough speed
+            if (this.getVectorX() === 0 || Math.abs(this.getVectorX()) <= (Physics.groundFrictionMu * DudeConstants.frictionAccel) / 2) {
+                this.inputAccelX = 0;
+                this.setVectorX(0);
+            } else {
+                this.inputAccelX = this.getFrictionMu() * DudeConstants.frictionAccel * (this.getVectorX() < 0 ? 1 : -1);
+            }
+        }
     }
 
     update() {
+        this.updatePlayer();
+        console.log('vX', this.getVectorX(), 'vY', this.getVectorY());
+    }
+
+    updateOldKeyBinds() {
         if (this.cursors.left.isDown) {
-            this.sprite.setVelocityX(-160);
+            this.getSprite().setVelocityX(-160);
+            console.log(this.getSprite().body.velocity.x);
 
-            this.sprite.anims.play('left', true);
+            this.getSprite().anims.play('left', true);
         } else if (this.cursors.right.isDown) {
-            this.sprite.setVelocityX(160);
+            this.getSprite().setVelocityX(160);
 
-            this.sprite.anims.play('right', true);
+            this.getSprite().anims.play('right', true);
         } else {
-            this.sprite.setVelocityX(0);
+            this.getSprite().setVelocityX(0);
 
-            this.sprite.anims.play('turn');
+            this.getSprite().anims.play('turn');
         }
 
-        if (this.cursors.up.isDown && this.sprite.body.touching.down) {
-            this.sprite.setVelocityY(-1000);
+        if (this.cursors.up.isDown && this.isGrounded()) {
+            this.getSprite().setVelocityY(-1000);
         }
+
+    }
+
+    /**
+     * returns an acceleration of friction in the opposite magnitude this player is translating.
+     * @returns {number}
+     */
+    getFrictionMu() {
+        return this.isGrounded() ? Physics.groundFrictionMu : Physics.airFrictionMu;
+    }
+
+    getAccelMu() {
+        return this.isGrounded() ? Physics.groundAccelMu : Physics.airAccelMu;
+    }
+
+    setVectorX(vector) {
+        this.getSprite().body.velocity.x = vector;
+    }
+
+    getVectorX() {
+        return this.getSprite().body.velocity.x;
+    }
+
+    getVectorY() {
+        return this.getSprite().body.velocity.y;
+    }
+
+    adjustVectorX(value) {
+        this.getSprite().body.velocity.x += value;
+    }
+
+    adjustVectorY(value) {
+        this.getSprite().body.velocity.y += value;
+    }
+
+    setVectorY(vector) {
+        this.getSprite().body.velocity.y = vector;
+    }
+
+    setAccelX(vector) {
+        this.getSprite().body.acceleration.x = vector;
+    }
+
+    setAccelY(vector) {
+        this.getSprite().body.acceleration.y = vector;
+    }
+
+    isGrounded() {
+        return this.getSprite().body.touching.down;
+    }
+
+    getSprite() {
+        return this.sprite;
     }
 }
