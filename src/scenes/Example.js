@@ -53,6 +53,10 @@ export default class extends Phaser.Scene {
         this.addToUniverse(test);
         this.player = test.getSprite();
 
+        var container = new Phaser.GameObjects.Container(this, 100, 450);
+        container.add(test.getSprite());
+        this.add.existing(container);
+
 
         //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
         this.stars = this.physics.add.group({

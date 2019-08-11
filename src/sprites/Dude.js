@@ -15,7 +15,8 @@ export default class extends UniverseMember {
     }
 
     create() {
-        this.sprite = this.scene.physics.add.sprite(100, 450, this.asset);
+        this.sprite = this.scene.physics.add.sprite(0, 0, this.asset);
+
         //  physics properties. Give the little guy a slight bounce.
         this.sprite.setBounce(0.1);
         this.sprite.setCollideWorldBounds(true);
