@@ -111,15 +111,18 @@ export default class extends UniverseMember {
         if (this.cursors.left.isDown) {
             // Left Pressed
             this.inputAccelX = -this.getAccelMu() * DudeConstants.accel;
+            this.getSprite().anims.play('left', true);
         } else if (this.cursors.right.isDown) {
             // Right Pressed
             this.inputAccelX = this.getAccelMu() * DudeConstants.accel;
+            this.getSprite().anims.play('right', true);
         } else {
             // Neither Left or Right is being pressed.
             // Stop moving when reaching a low enough speed
             if (this.getVectorX() === 0 || Math.abs(this.getVectorX()) <= (Physics.groundFrictionMu * DudeConstants.frictionAccel) / 2) {
                 this.inputAccelX = 0;
                 this.setVectorX(0);
+                this.getSprite().anims.play('turn');
             } else {
                 this.inputAccelX = this.getFrictionMu() * DudeConstants.frictionAccel * (this.getVectorX() < 0 ? 1 : -1);
             }
