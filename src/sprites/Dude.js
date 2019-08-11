@@ -9,7 +9,6 @@ export default class extends UniverseMember {
         this.asset = asset;
         this.cursors = cursors;
         this.anims = anims;
-
         this.inputAccelX = 0;
 
         this.create();
@@ -57,12 +56,8 @@ export default class extends UniverseMember {
     }
 
     updatePlayer() {
-        // console.log('pc x y', this.x, this.y, this.width, this.height, this.vectorX, this.vectorY, this.accelX,
-        // this.accelY);
-        // this.lastX = this.x;
-        // this.lastY = this.y;
         this.updateKeyBinds();
-        // this.grounded = false;
+
         // this.updateVectorInfluences();
 
         if (this.inputAccelX > 0) {
@@ -76,11 +71,6 @@ export default class extends UniverseMember {
                 this.setVectorX(clamp(this.getVectorX(), -DudeConstants.maxRunSpeed, DudeConstants.maxRunSpeed));
             }
         }
-
-        // this.vectorX += this.accelX;
-        // this.vectorY += this.accelY + Physics.gravity;
-        // this.x += this.vectorX;
-        // this.y += this.vectorY;
     }
 
     updateKeyBinds() {
@@ -103,9 +93,9 @@ export default class extends UniverseMember {
             //     parent: this.player,
             //     parentContainer: this
             // }));
-            // if (!this.sfx.psi.isPlaying) {
-            //     this.sfx.psi.play();
-            // }
+            if (!this.sfx.psi.isPlaying) {
+                this.sfx.psi.play();
+            }
         }
 
         if (this.cursors.left.isDown) {
