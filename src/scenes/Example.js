@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import {images} from '../../assets'
+import Dude from '../sprites/Dude'
 
 export default class extends Phaser.Scene {
     constructor() {
@@ -15,6 +16,14 @@ export default class extends Phaser.Scene {
         this.load.image(images.star, 'assets/star.png');
         this.load.image(images.bomb, 'assets/bomb.png');
         this.load.spritesheet(images.dude, 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
+    }
+
+    addToUniverse(universeMember) {
+        if (!this.universe) {
+            this.universe = [];
+        }
+
+        this.universe.push(universeMember);
     }
 
     create() {
@@ -33,33 +42,10 @@ export default class extends Phaser.Scene {
         this.platforms.create(50, 250, images.ground);
         this.platforms.create(750, 220, images.ground);
 
-        // The player and its settings
-        this.player = this.physics.add.sprite(100, 450, images.dude);
-
-        //  Player physics properties. Give the little guy a slight bounce.
-        this.player.setBounce(0.1);
-        this.player.setCollideWorldBounds(true);
-
-        //  Our player animations, turning, walking left and walking right.
-        this.anims.create({
-            key: 'left',
-            frames: this.anims.generateFrameNumbers(images.dude, {start: 0, end: 3}),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'turn',
-            frames: [{key: images.dude, frame: 4}],
-            frameRate: 20
-        });
-
-        this.anims.create({
-            key: 'right',
-            frames: this.anims.generateFrameNumbers(images.dude, {start: 5, end: 8}),
-            frameRate: 10,
-            repeat: -1
-        });
+        // // The player and its settings
+        // this.player = this.physics.add.sprite(100, 450, images.dude);
+        var test = new Dude({scene: this, anims: this.anims, asset: images.dude});
+        this.player = test.getSprite();
 
         //  Input Events
         this.cursors = this.input.keyboard.createCursorKeys();
